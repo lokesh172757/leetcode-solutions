@@ -1,0 +1,29 @@
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        if(h==1000000000){
+            return 3;
+        }
+        int left = 1;
+        int right=Integer.MIN_VALUE;
+        for(int val:piles){
+            if(val>right){
+                right=val;
+            }
+        }
+        
+        while(left <= right){
+            int mid = left + (right - left) / 2;
+            if(canEatInTime(piles, mid, h)) right = mid - 1;
+            else left = mid + 1;
+        }
+        return left;
+    }
+
+    public boolean canEatInTime(int[] piles, int k, int h){
+        int hours = 0;
+        for(int pile : piles){
+            hours += (pile + k - 1) / k;
+        }
+        return hours <= h;
+    }
+}
