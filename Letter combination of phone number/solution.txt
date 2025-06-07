@@ -1,0 +1,43 @@
+class Solution {
+    public static void help(String digits,String curr,List<String>ans,int idx,HashMap<Character,Character>map){
+        if(idx==digits.length()){
+            ans.add(curr);
+            return;
+        }
+        char dig=digits.charAt(idx);
+        char st=map.get(dig);
+        if(dig=='7'||dig=='9'){
+            for(int j=0;j<4;j++){
+                char ch=(char)((int)st+j);
+                help(digits,curr+ch,ans,idx+1,map);
+            
+            }
+        }
+        else{
+            for(int j=0;j<3;j++){
+                char ch=(char)((int)st+j);
+                help(digits,curr+ch,ans,idx+1,map);
+            
+            }
+        }
+    }
+    public List<String> letterCombinations(String digits) {
+        List<String>ans=new ArrayList<>();
+        if(digits.length()==0){
+            return ans;
+        }
+        HashMap<Character,Character>map=new HashMap<>();
+        map.put('2','a');
+        map.put('3','d');
+        map.put('4','g');
+        map.put('5','j');
+        map.put('6','m');
+        map.put('7','p');
+        map.put('8','t');
+        map.put('9','w');
+
+        
+        help(digits,"",ans,0,map);
+        return ans;
+    }
+}
