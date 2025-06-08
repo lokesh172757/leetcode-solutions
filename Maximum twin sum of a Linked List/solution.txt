@@ -19,7 +19,6 @@ class Solution {
         h=prev;
         //calculate max
         int max=0;
-        slow=head;
         while(head!=null){
             if(head.val+h.val>max){
                 max=head.val+h.val;
