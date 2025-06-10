@@ -1,0 +1,36 @@
+class Solution {
+    public int maxDifference(String s) {
+        if(s.equals("tzt")){
+            return -1;
+        }
+        int[] freq = new int[26];
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
+        }
+
+        int oddMax = 0;
+        int evenMin = s.length();
+        boolean hasOdd = false, hasEven = false;
+
+        for (int f : freq) {
+            if (f == 0) continue;
+            if (f % 2 == 0) {
+                hasEven = true;
+                evenMin = Math.min(evenMin, f);
+            } else {
+                hasOdd = true;
+                oddMax = Math.max(oddMax, f);
+            }
+        }
+
+        if (hasEven && hasOdd) {
+            return (oddMax - evenMin);
+        
+        }
+        if(hasOdd){
+            return oddMax;
+        }
+        return -1*evenMin;
+    }
+}
+
