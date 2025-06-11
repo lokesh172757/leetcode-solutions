@@ -1,0 +1,34 @@
+class Solution {
+    public static int help(int i, int j, int m, int n, int[][] arr, int[][] obstacleGrid) {
+        // Out of bounds or obstacle
+        if (i > m || j > n || obstacleGrid[i][j] == 1) {
+            return 0;
+        }
+
+        // Reached destination
+        if (i == m && j == n) {
+            return 1;
+        }
+
+        // Already computed
+        if (arr[i][j] != -1) {
+            return arr[i][j];
+        }
+
+        // Recursively compute paths
+        arr[i][j] = help(i + 1, j, m, n, arr, obstacleGrid) + help(i, j + 1, m, n, arr, obstacleGrid);
+        return arr[i][j];
+    }
+
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length, n = obstacleGrid[0].length;
+        int[][] arr = new int[m][n];
+
+        // Initialize memoization array
+        for (int i = 0; i < m; i++) {
+            Arrays.fill(arr[i], -1);
+        }
+
+        return help(0, 0, m - 1, n - 1, arr, obstacleGrid);
+    }
+}
