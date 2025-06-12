@@ -1,0 +1,24 @@
+class Solution {
+    public static int help(int i,int j,int m,int n,int [][] grid,int arr[][]){
+        if(i>m||j>n){
+            return Integer.MAX_VALUE;
+        }
+        else if(i==m&&j==n){
+            return grid[i][j];
+        }
+        else if(arr[i][j]!=-1){
+            return arr[i][j];
+        }
+        arr[i][j]=Math.min(help(i+1,j,m,n,grid,arr),help(i,j+1,m,n,grid,arr))+grid[i][j];
+        return arr[i][j];
+
+    } 
+    public int minPathSum(int[][] grid) {
+        int m=grid.length,n=grid[0].length;
+        int arr[][]=new int [m][n];
+        for(int i=0;i<m;i++){
+            Arrays.fill(arr[i],-1);
+        }
+        return help(0,0,m-1,n-1,grid,arr);
+    }
+}
