@@ -1,0 +1,27 @@
+class Solution {
+    public boolean isPathCrossing(String p) {
+        int x = 0, y = 0;
+        HashSet<String> set = new HashSet<>();
+        set.add("0,0");
+
+        for (int i = 0; i < p.length(); i++) {
+            char ch = p.charAt(i);
+            if (ch == 'N') {
+                y++;
+            } else if (ch == 'S') {
+                y--;
+            } else if (ch == 'E') {
+                x++;
+            } else if (ch == 'W') {
+                x--;
+            }
+
+            String pos = x + "," + y;
+            if (set.contains(pos)) {
+                return true;
+            }
+            set.add(pos);
+        }
+        return false;
+    }
+}
