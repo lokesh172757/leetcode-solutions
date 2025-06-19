@@ -1,0 +1,30 @@
+class Solution {
+    public static void fill(TreeNode root, Queue<Integer> first) {
+        if (root.left == null && root.right == null) {
+            first.add(root.val);
+            return;
+        }
+        if (root.left != null) fill(root.left, first);
+        if (root.right != null) fill(root.right, first);
+    }
+
+    public static boolean check(TreeNode root, Queue<Integer> first) {
+        if (root.left == null && root.right == null) {
+            if (first.isEmpty() || root.val != first.remove()) return false;
+            return true;
+        }
+        boolean ans1 = true, ans2 = true;
+        if (root.left != null) ans1 = check(root.left, first);
+        if (root.right != null) ans2 = check(root.right, first);
+        return ans1 && ans2;
+    }
+
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        if (root1 == null && root2 == null) return true;
+        else if (root1 == null || root2 == null) return false;
+
+        Queue<Integer> first = new LinkedList<>();
+        fill(root1, first);
+        return check(root2, first) && first.isEmpty();
+    }
+}
