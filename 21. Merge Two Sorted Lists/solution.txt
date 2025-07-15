@@ -1,0 +1,67 @@
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if(list1==null){
+            return list2;
+        }
+        else if(list2==null){
+            return list1;
+        }
+        //approach->1
+        // ListNode t1=list1,t2=list2,head=null,t3=null;
+        // while(t1!=null&&t2!=null){
+        //     ListNode newnode=new ListNode(-101);
+        //     if(t1.val<=t2.val){
+        //         newnode.val=t1.val;
+        //         t1=t1.next;
+        //     }
+        //     else{
+        //         newnode.val=t2.val;
+        //         t2=t2.next;
+        //     }
+        //     if(head==null){
+        //         head=newnode;
+        //         t3=head;
+        //     }
+        //     else{
+        //         t3.next=newnode;
+        //         t3=t3.next;
+        //     }
+        // }
+        // while(t1!=null){
+        //     t3.next=t1;
+        //     t1=t1.next;
+        //     t3=t3.next;
+        // }
+        // while(t2!=null){
+        //     t3.next=t2;
+        //     t2=t2.next;
+        //     t3=t3.next;
+        // }
+        // return head;
+
+        // approach 2->O(1) space
+        ListNode l1 = list1, l2 = list2;
+    if (l2.val < l1.val) {
+        ListNode temp = l1;
+        l1 = l2;
+        l2 = temp;
+    }
+    ListNode head = l1;
+
+    while (l1 != null && l2 != null) {
+        ListNode temp = null;
+        while (l1 != null && l1.val <= l2.val) {
+            temp = l1;
+            l1 = l1.next;
+        }
+        temp.next = l2;
+
+        // Swap l1 and l2 to maintain the invariant that l1 has smaller node
+        ListNode t = l1;
+        l1 = l2;
+        l2 = t;
+    }
+
+    return head;
+    }
+}

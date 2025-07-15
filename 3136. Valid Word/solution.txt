@@ -1,0 +1,26 @@
+class Solution {
+    public boolean isValid(String word) {
+        if(word.length()<3){
+            return false;
+        }
+        boolean vow=false,cons=false;
+        for(int i=0;i<word.length();i++){
+            char ch=word.charAt(i);
+            if((ch<='9'&&ch>='0')){
+                continue;
+            }
+            else if((ch<='z'&&ch>='a')||(ch>='A'&&ch<='Z')){
+                if(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u'||ch=='A'||ch=='E'||ch=='I'||ch=='O'||ch=='U'){
+                    vow=true;
+                }
+                else{
+                    cons=true;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        return vow&&cons;
+    }
+}
