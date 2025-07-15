@@ -1,0 +1,58 @@
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        if(head==null){
+            return head;
+        }
+        // Approach ->1 timeO(n) space O(n)
+        // ListNode ans=null,t=null,temp=head;
+        // // first iteration
+        // while(temp!=null){
+        //     if(temp.val<x){
+        //         ListNode nn=new ListNode(temp.val);
+        //         if(ans==null){
+        //             ans=t=nn;
+        //         }
+        //         else{
+        //             t.next=nn;
+        //             t=nn;
+        //         }
+        //     }
+        //     temp=temp.next;
+        // }
+        // // if there is no node.val<x
+        // if(ans==null){
+        //     return head;
+        // }
+        // // second iteration for node.val>=x
+        // temp=head;
+        // while(temp!=null){
+        //     if(temp.val>=x){
+        //         ListNode nn=new ListNode(temp.val);
+        //         t.next=nn;
+        //         t=nn;
+        //     }
+        //     temp=temp.next;
+        // }
+        // return ans;
+
+        //Approach ->2 timeO(n) space O(1)
+        //dummy nodes
+        ListNode aHead=new ListNode(0),bHead=new ListNode(0);
+        // pointers
+        ListNode a=aHead,b=bHead,temp=head;
+        while(temp!=null){
+            if(temp.val<x){
+                a.next=temp;
+                a=temp;
+            }
+            else{
+                b.next=temp;
+                b=temp;
+            }
+            temp=temp.next;
+        }
+        a.next=bHead.next;
+        b.next=null;
+        return aHead.next;
+    }
+}
