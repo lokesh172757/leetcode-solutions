@@ -1,0 +1,22 @@
+class Solution {
+    public void flatten(TreeNode root) {
+        if(root==null){
+            return;
+        }
+
+        // Approach-2
+        while(root!=null){
+            if(root.left!=null){
+                TreeNode curr=root.left;
+                while(curr.right!=null){
+                    curr=curr.right;
+                }
+                curr.right=root.right;
+                root.right=root.left;
+                root.left=null;
+            }
+            root=root.right;
+        }
+        
+    }
+}
