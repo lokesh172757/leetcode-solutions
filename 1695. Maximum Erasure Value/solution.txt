@@ -1,0 +1,19 @@
+class Solution {
+    public int maximumUniqueSubarray(int[] nums) {
+        int i=0,j=0,sum=0,ans=0;
+        HashSet<Integer>set=new HashSet<>();
+        while(j<nums.length){
+            int n=nums[j];
+            while(set.contains(n)&&i<j){
+                sum-=nums[i];
+                set.remove(nums[i]);
+                i++;
+            }
+            sum+=n;
+            set.add(n);
+            ans=Math.max(sum,ans);
+            j++;
+        }
+        return ans;
+    }
+}
