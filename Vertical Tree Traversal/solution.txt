@@ -1,0 +1,47 @@
+
+class Solution {
+    static class Pair{
+        Node node;
+        int d;
+        public Pair(Node node,int d){
+            this.node=node;
+            this.d=d;
+        }
+    }
+    public static void level(TreeMap<Integer,ArrayList<Integer>>map,Node root){
+        if(root==null){
+            return;
+        }
+        Queue<Pair>q=new LinkedList<>();
+        q.add(new Pair(root,0));
+        while(!q.isEmpty()){
+            Pair p=q.remove();
+            Node n=p.node;
+            int d=p.d;
+            if(n.left!=null){
+                q.add(new Pair(n.left,d-1));
+            }
+            if(n.right!=null){
+                q.add(new Pair(n.right,d+1));
+            }
+            if(map.containsKey(d)){
+                map.get(d).add(n.data);
+            }
+            else{
+                ArrayList<Integer>l=new ArrayList<>();
+                l.add(n.data);
+                map.put(d,l);
+            }
+            
+        }
+    }
+    static ArrayList<ArrayList<Integer>> verticalOrder(Node root) {
+        ArrayList<ArrayList<Integer>>ans=new ArrayList<>();
+        TreeMap<Integer,ArrayList<Integer>>map=new TreeMap<>();
+        level(map,root);
+        for(Integer num:map.keySet()){
+            ans.add(map.get(num));
+        }
+        return ans;
+    }
+}
