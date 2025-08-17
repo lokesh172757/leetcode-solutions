@@ -1,0 +1,27 @@
+
+class Solution {
+    static class Pair{
+        int len;
+        int dia;
+        public Pair(int len,int dia){
+            this.dia=dia;
+            this.len=len;
+        }
+    }
+    public static Pair helper(TreeNode root){
+        if(root==null){
+            return new Pair(0,0);
+        }
+        Pair left=helper(root.left);
+        Pair right=helper(root.right);
+        int height=Math.max(left.len,right.len)+1;
+        int dia=Math.max(Math.max(left.dia,right.dia),(left.len+right.len+1));
+        return new Pair(height,dia);
+
+
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+       return helper(root).dia-1;
+
+    }
+}
