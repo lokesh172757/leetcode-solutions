@@ -1,0 +1,35 @@
+class Solution {
+    static class Pair{
+        Node n;
+        int d;
+        public Pair(Node n,int d){
+            this.n=n;
+            this.d=d;
+        }
+    }
+    static ArrayList<Integer> topView(Node root) {
+        Queue<Pair>q=new LinkedList<>();
+        ArrayList<Integer>l=new ArrayList<>();
+        q.add(new Pair(root,0));
+        TreeMap<Integer,Integer>map=new TreeMap<>();
+        while(!q.isEmpty()){
+            Pair p=q.remove();
+            int d=p.d;
+            Node n=p.n;
+            if(!map.containsKey(d)){
+                map.put(d,n.data);
+            }
+            if(n.left!=null){
+                q.add(new Pair(n.left,d-1));
+            }
+            if(n.right!=null){
+                q.add(new Pair(n.right,d+1));
+            }
+        }
+        for(Integer num:map.keySet()){
+            l.add(map.get(num));
+        }
+        return l;
+        
+    }
+}
