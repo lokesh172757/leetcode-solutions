@@ -1,0 +1,46 @@
+class Solution {
+    static class Pair implements Comparable<Pair>{
+            int v;
+            int cost;
+            public Pair(int v,int c){
+                this.v=v;
+                this.cost=c;
+            }
+            @Override
+            public int compareTo(Pair p2){
+                return this.cost-p2.cost;
+            }
+    }
+    public int minCostConnectPoints(int[][] points) {
+        int v=points.length;
+        ArrayList<Pair>graph[]=new ArrayList[v];
+        for(int i=0;i<v;i++){
+            graph[i]=new ArrayList<>();
+            int xi=points[i][0],yi=points[i][1];
+            for(int j=0;j<v;j++){
+                if(i!=j){
+                    int xj=points[j][0],yj=points[j][1];
+                    int dist=Math.abs(xi-xj)+Math.abs(yi-yj);
+                    graph[i].add(new Pair(j,dist));
+                }
+            }
+        }
+        // prim's algo
+        PriorityQueue<Pair> pq=new PriorityQueue<>();
+        boolean vis[]=new boolean[v];
+        pq.add(new Pair(0,0));
+        int ans=0;
+        while(!pq.isEmpty()){
+            Pair curr=pq.remove();
+            
+            if(!vis[curr.v]){
+                vis[curr.v]=true;
+                ans+=curr.cost;
+                for(int i=0;i<graph[curr.v].size();i++){
+                    pq.add(graph[curr.v].get(i));
+                }
+            }
+        }
+        return ans;
+    }
+}
