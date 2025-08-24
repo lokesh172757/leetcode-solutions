@@ -1,0 +1,16 @@
+class Solution {
+    public static void helper(int [][]image,int i,int j,int m,int n,int color,int org){
+        if(i<0||j<0||i>=m||j>=n|| image[i][j]==color||image[i][j]!=org){
+            return;
+        }
+        image[i][j]=color;
+        helper(image,i+1,j,m,n,color,org);
+        helper(image,i-1,j,m,n,color,org);
+        helper(image,i,j+1,m,n,color,org);
+        helper(image,i,j-1,m,n,color,org);
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        helper(image,sr,sc,image.length,image[0].length,color,image[sr][sc]);
+        return image;
+    }
+}
