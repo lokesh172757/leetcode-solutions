@@ -1,0 +1,40 @@
+class Solution {
+    static class Pair implements Comparable<Pair> {
+        String str;
+        int f;
+        public Pair(String s, int f) {
+            this.str = s;
+            this.f = f;
+        }
+        @Override
+        public int compareTo(Pair p2) {
+            if (this.f == p2.f) {
+                return p2.str.compareTo(this.str);
+            }
+            return this.f - p2.f;
+        }
+    }
+
+    public List<String> topKFrequent(String[] words, int k) {
+        List<String> ans = new ArrayList<>();
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for (String str : words) {
+            map.put(str, map.getOrDefault(str, 0) + 1);
+        }
+
+        for (String str : map.keySet()) {
+            pq.add(new Pair(str, map.get(str)));
+            if (pq.size() > k) {
+                pq.remove();
+            }
+        }
+
+        while (!pq.isEmpty()) {
+            ans.add(pq.remove().str);
+        }
+        Collections.reverse(ans);
+        return ans;
+    }
+}
