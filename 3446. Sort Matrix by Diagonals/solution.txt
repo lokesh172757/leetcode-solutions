@@ -1,0 +1,46 @@
+class Solution {
+    public int[][] sortMatrix(int[][] grid) {
+        int m=grid.length,n=grid[0].length;
+        int i=m-2,j=0;
+        while(i>=0){
+            int r=i,c=j;
+            ArrayList<Integer>l=new ArrayList<>();
+            while(r<m&&c<n){
+                l.add(grid[r][c]);
+                r++;
+                c++;
+            }
+            Collections.sort(l,Collections.reverseOrder());
+            r=i;c=j;
+            int k=0;
+            while(r<m&&c<n){
+                grid[r][c]=l.get(k);
+                r++;
+                c++;
+                k++;
+            }
+            i--;
+        }
+        i=0;j=1;
+        while(j<n-1){
+            int r=i,c=j;
+            ArrayList<Integer>l=new ArrayList<>();
+            while(r<m&&c<n){
+                l.add(grid[r][c]);
+                r++;
+                c++;
+            }
+            Collections.sort(l);
+            r=i;c=j;
+            int k=0;
+            while(r<m&&c<n){
+                grid[r][c]=l.get(k);
+                r++;
+                c++;
+                k++;
+            }
+            j++;
+        }
+        return grid;
+    }
+}
