@@ -1,0 +1,21 @@
+class Solution {
+    public int[] numberOfPairs(int[] nums) {
+        int n=nums.length,p=0,i=0,j=1;
+        if(n==1){
+            return new int[]{0,n};
+        }
+        Arrays.sort(nums);
+        while(j<n){
+            if(nums[i]==nums[j]){
+                p++;
+                i=j+1;
+                j=i+1;
+            }
+            else{
+                i++;j++;
+            }
+            
+        }
+        return new int[]{p,n-2*p};
+    }
+}

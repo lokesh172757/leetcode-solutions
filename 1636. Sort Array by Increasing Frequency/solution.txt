@@ -1,0 +1,39 @@
+class Solution {
+    static class Pair implements Comparable<Pair>{
+        int n;
+        int f;
+        public Pair(int n,int f){
+            this.n=n;
+            this.f=f;
+        }
+        @Override
+        public int compareTo(Pair p2){
+            if(this.f==p2.f){
+                return p2.n-this.n;
+            }
+            return this.f-p2.f;
+        }
+    }
+    public int[] frequencySort(int[] nums) {
+        HashMap<Integer,Integer>map=new HashMap<>();
+        PriorityQueue<Pair>pq=new PriorityQueue<>();
+        for(int n:nums){
+            map.put(n,map.getOrDefault(n,0)+1);
+        }
+        for(Integer n:map.keySet()){
+            pq.add(new Pair(n,map.get(n)));
+        }
+        int i=0;
+        while(!pq.isEmpty()){
+            Pair p=pq.remove();
+            int n=p.n;
+            int f=p.f;
+            while(f>0){
+                nums[i]=n;
+                i++;
+                f--;
+            }
+        }
+        return nums;
+    }
+}
