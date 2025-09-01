@@ -1,0 +1,38 @@
+
+class Solution {
+    public static boolean hasPath(int grid[][],int i,int j,int er,int ec,int m,int n){
+        if(i<0||j<0||i>=m||j>=n||grid[i][j]==0||grid[i][j]==-1){
+            return false;
+        }
+        if(i==er&&j==ec){
+            return true;
+        }
+        grid[i][j]=-1;
+        if(hasPath(grid,i,j+1,er,ec,m,n)||
+            hasPath(grid,i,j-1,er,ec,m,n)||
+            hasPath(grid,i+1,j,er,ec,m,n)||
+            hasPath(grid,i-1,j,er,ec,m,n))
+        {
+            return true;
+        }
+        return false;
+    }
+    public boolean is_Possible(int[][] grid) {
+        int m=grid.length,n=grid[0].length;
+        int sr=-1,sc=-1,er=-1,ec=-1;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1){
+                    sr=i;
+                    sc=j;
+                }
+                else if(grid[i][j]==2){
+                    er=i;
+                    ec=j;
+                }
+            }
+        }
+        return hasPath(grid,sr,sc,er,ec,m,n);
+        
+    }
+}
