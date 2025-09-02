@@ -1,0 +1,59 @@
+// User function Template for Java
+class Solution {
+    static class Pair implements Comparable<Pair>{
+        int n,wt;
+        public Pair(int n,int wt){
+            this.n=n;
+            this.wt=wt;
+        }
+        @Override
+        public int compareTo(Pair p2){
+            return this.wt-p2.wt;
+        }
+    }
+    static class Edge{
+        int d,w;
+        public Edge(int d,int w){
+            this.d=d;
+            this.w=w;
+        }
+    }
+    public int[] shortestPath(int V, int E, int[][] edges) {
+        int dist[]=new int[V];
+        for(int i=1;i<V;i++){
+            dist[i]=Integer.MAX_VALUE;
+        }
+        ArrayList<Edge>graph[]=new ArrayList[V];
+        for (int i = 0; i < V; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        for(int i=0;i<edges.length;i++){
+            int s=edges[i][0],d=edges[i][1],w=edges[i][2];
+            graph[s].add(new Edge(d,w));
+        }
+        boolean vis[]=new boolean[V];
+        PriorityQueue<Pair>pq=new PriorityQueue<>();
+        pq.add(new Pair(0,0));
+        while(!pq.isEmpty()){
+            Pair p=pq.remove();
+            int n=p.n;
+            if(!vis[n]){
+                vis[n]=true;
+                for(int i=0;i<graph[n].size();i++){
+                    Edge e=graph[n].get(i);
+                    if(dist[n]+e.w<dist[e.d]){
+                        dist[e.d]=dist[n]+e.w;
+                    }
+                    pq.add(new Pair(e.d,dist[e.d]));
+                }
+            }
+        }
+        for(int i=1;i<V;i++){
+            if(dist[i]==Integer.MAX_VALUE){
+                dist[i]=-1;
+            }
+        }
+        return dist;
+        
+    }
+}
