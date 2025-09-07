@@ -1,0 +1,26 @@
+class Solution {
+    public int[] sumZero(int n) {
+        if(n==1){
+            return new int[]{0};
+        }
+        int arr[]=new int[n];
+        int i=0,num=(n/2)*(-1),j=1;
+        for(;j<=n/2;j++){
+            arr[i]=num;
+            num++;
+            i++;
+        }
+        num=1;
+        if(n%2!=0){
+            arr[i]=0;
+            i++;
+            j++;
+        }
+        for(;j<=n;j++){
+            arr[i]=num;
+            num++;
+            i++;
+        }
+        return arr;
+    }
+}
