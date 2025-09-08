@@ -1,0 +1,29 @@
+class Solution {
+    public static boolean check(int n){
+        while(n>0){
+            if(n%10==0){
+                return false;
+            }
+            n/=10;
+        }
+        return true;
+    }
+    public int[] getNoZeroIntegers(int n) {
+        int a=n/2;
+        int b=a;
+        int ans[]={0,0};
+        if(n%2!=0){
+            b++;
+        }
+        while(a>0){
+            if(check(a)&&check(b)){
+                ans=new int[]{a,b};
+                break;
+            }
+            a--;
+            b++;
+        }
+        return ans;
+
+    }
+}
