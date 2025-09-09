@@ -1,0 +1,23 @@
+class Solution {
+    public int maxRepeating(String sequence, String word) {
+        int ans=0;
+        int i=0;
+        char st=word.charAt(0);
+        while(i<sequence.length()){
+            if(sequence.charAt(i)==st){
+                int j=0,k=0,l=i;
+                while(l<sequence.length()&&word.charAt(j)==sequence.charAt(l)){
+                    if(++j==word.length()){
+                        k++;
+                        j=0;
+                    }
+                    l++;
+                }
+                ans=Math.max(k,ans);
+            }
+            i++;
+            
+        }
+        return ans;
+    }
+}
