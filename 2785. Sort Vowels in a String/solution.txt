@@ -1,0 +1,30 @@
+class Solution {
+    public String sortVowels(String s) {
+        TreeMap<Character,Integer>map=new TreeMap<>();
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u'||ch=='A'||ch=='E'||ch=='I'||ch=='O'||ch=='U'){
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
+        }
+        StringBuilder sb=new StringBuilder("");
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u'||ch=='A'||ch=='E'||ch=='I'||ch=='O'||ch=='U'){
+                char first=map.firstKey();
+                if(map.get(first)==1){
+                    map.remove(first);
+                }
+                else{
+                    map.put(first,map.get(first)-1);
+                }
+                sb.append(first);
+            }
+            else{
+                sb.append(ch);
+            }
+            
+        }
+        return sb.toString();
+    }
+}
