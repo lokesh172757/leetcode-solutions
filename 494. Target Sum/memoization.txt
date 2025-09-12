@@ -1,0 +1,20 @@
+class Solution {
+    public static int helper(int nums[], int t, int idx, int dp[][], int offset, int total) {
+        if (t < -total || t > total) return 0;
+        if (idx == 0) return (t == 0) ? 1 : 0;
+        if (dp[t + offset][idx] != -1) return dp[t + offset][idx];
+        int add = helper(nums, t - nums[idx - 1], idx - 1, dp, offset, total);
+        int sub = helper(nums, t + nums[idx - 1], idx - 1, dp, offset, total);
+        return dp[t + offset][idx] = add + sub;
+    }
+
+    public int findTargetSumWays(int[] nums, int target) {
+        int n = nums.length;
+        int total = 0;
+        for (int x : nums) total += x;
+        if (Math.abs(target) > total) return 0;
+        int dp[][] = new int[2 * total + 1][n + 1];
+        for (int[] row : dp) Arrays.fill(row, -1);
+        return helper(nums, target, n, dp, total, total);
+    }
+}
