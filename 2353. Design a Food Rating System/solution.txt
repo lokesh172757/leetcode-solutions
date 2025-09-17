@@ -1,0 +1,57 @@
+class FoodRatings {
+    static class Pair implements Comparable<Pair> {
+        String name;
+        int rating;
+        public Pair(String name, int rating) {
+            this.name = name;
+            this.rating = rating;
+        }
+        @Override
+        public int compareTo(Pair p2) {
+            if (this.rating == p2.rating) {
+                return this.name.compareTo(p2.name);
+            }
+            return p2.rating - this.rating;
+        }
+    }
+
+    HashMap<String, PriorityQueue<Pair>> map;
+    HashMap<String, String> find;
+    HashMap<String, Integer> foodRatings;
+
+    public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
+        find = new HashMap<>();
+        map = new HashMap<>();
+        foodRatings = new HashMap<>();
+
+        for(int i=0;i<foods.length;i++){
+            find.put(foods[i],cuisines[i]);
+            foodRatings.put(foods[i], ratings[i]);
+            if(map.containsKey(cuisines[i])){
+                map.get(cuisines[i]).add(new Pair(foods[i],ratings[i]));
+            }
+            else{
+                PriorityQueue<Pair>pq=new PriorityQueue<>();
+                pq.add(new Pair(foods[i],ratings[i]));
+                map.put(cuisines[i],pq);
+            }
+        }
+    }
+    
+   public void changeRating(String food, int newRating) {
+        String cus = find.get(food);
+        foodRatings.put(food, newRating);
+        map.get(cus).add(new Pair(food, newRating));
+    }
+
+    public String highestRated(String cuisine) {
+        PriorityQueue<Pair> pq = map.get(cuisine);
+        while (true) {
+            Pair top = pq.peek();
+            if (top.rating == foodRatings.get(top.name)) {
+                return top.name;
+            }
+            pq.remove();
+        }
+    }
+}

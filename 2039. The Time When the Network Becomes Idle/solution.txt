@@ -1,0 +1,43 @@
+class Solution {
+    public int networkBecomesIdle(int[][] edges, int[] patience) {
+        int n=patience.length;
+        ArrayList<Integer>graph[]=new ArrayList[n];
+        for(int i=0;i<n;i++){
+            graph[i]=new ArrayList<>();
+
+        }
+        for(int i=0;i<edges.length;i++){
+            graph[edges[i][0]].add(edges[i][1]);
+            graph[edges[i][1]].add(edges[i][0]);
+        }
+        int dist[]=new int[n];
+        for(int i=1;i<n;i++){
+            dist[i]=Integer.MAX_VALUE;
+        }
+        Queue<Integer>q=new LinkedList<>();
+        q.add(0);
+        boolean vis[]=new boolean[n];
+        while(!q.isEmpty()){
+            int p=q.remove();
+            if(!vis[p]){
+                vis[p]=true;
+                for(int i=0;i<graph[p].size();i++){
+                    int dest=graph[p].get(i);
+                    if(dist[p]+1<dist[dest]){
+                        dist[dest]=dist[p]+1;
+                        q.add(dest);
+                    }
+                }
+            }
+        }
+        int ans = 0;
+        for (int i = 1; i < n; i++) {
+            int roundTrip = 2 * dist[i];
+            int lastSend = ((roundTrip - 1) / patience[i]) * patience[i];
+            int idleTime = lastSend + roundTrip;
+            ans = Math.max(ans, idleTime);
+        }
+        
+        return ans + 1;
+    }
+}
