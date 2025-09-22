@@ -1,0 +1,18 @@
+class Solution {
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer>ans=new ArrayList<>();
+        for(int i=left;i<=right;i++){
+            int n=i,num=i;
+            boolean divide=true;
+            while(n>0){
+                if(n%10==0||num%(n%10)!=0){
+                    divide=false;
+                    break;
+                }
+                n/=10;
+            }
+            if(divide)ans.add(i);
+        }
+        return ans;
+    }
+}
