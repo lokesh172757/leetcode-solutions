@@ -1,0 +1,19 @@
+class Solution {
+    public static int help(List<List<Integer>> triangle,int i,int j,int dp[][]){
+        if(i>=triangle.size()){
+            return 0;
+        }
+        if(dp[i][j]!=Integer.MAX_VALUE){
+            return dp[i][j];
+        }
+        return dp[i][j]=Math.min(help(triangle,i+1,j,dp),help(triangle,i+1,j+1,dp))+triangle.get(i).get(j);
+    }
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n=triangle.size();
+        int dp[][]=new int[n][n];
+        for(int []ar:dp){
+            Arrays.fill(ar,Integer.MAX_VALUE);
+        }
+        return help(triangle,0,0,dp);
+    }
+}
