@@ -1,0 +1,35 @@
+class Solution {
+    public class Pair implements Comparable<Pair>{
+        int val;
+        int i;
+        public Pair(int i,int v){
+            this.i=i;
+            this.val=v;
+        }
+        @Override
+        public int compareTo(Pair p2){
+            return p2.val-this.val;
+        }
+    }
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n=nums.length;
+        int arr[]=new int[n-k+1];
+        PriorityQueue<Pair>pq=new PriorityQueue<>();
+        for(int i=0;i<k;i++){
+            pq.add(new Pair(i,nums[i]));
+        }
+        
+        int idx=0;
+        arr[idx++]=pq.peek().val;
+        for(int i=k;i<n;i++){
+            pq.add(new Pair(i,nums[i]));
+            while(pq.peek().i<=i-k){
+                pq.remove();
+            }
+            arr[idx++]=pq.peek().val;
+
+        }
+        return arr;
+        
+    }
+}
