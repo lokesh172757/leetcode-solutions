@@ -1,0 +1,66 @@
+class Solution {
+    public int maxTurbulenceSize(int[] nums) {
+        int n=nums.length;
+        if(n==1)return 1;
+        int ans=0,i=0,j=1;
+        boolean even=false;
+        while(j<n){
+            if(even){
+                if (nums[j] == nums[j - 1]) {
+                    ans = Math.max(ans, j - i);
+                    i = j;
+                    even = false;
+                }
+                else if(nums[j-1]>nums[j]){
+                    ans=Math.max(ans,j-i);
+                    i=j;
+                }
+                even=false;
+            }
+            else{
+                if (nums[j] == nums[j - 1]) {
+                    ans = Math.max(ans, j - i);
+                    i = j;
+                    even = true;
+                }
+                else if(nums[j-1]<nums[j]){
+                    ans=Math.max(ans,j-i);
+                    i=j;
+                }
+                even=true;
+            }
+            j++;
+        }
+        ans=Math.max(ans,j-i);
+        i=0;j=1;even=false;
+        while(j<n){
+            if(even){
+                if (nums[j] == nums[j - 1]) {
+                    ans = Math.max(ans, j - i);
+                    i = j;
+                    even = false;
+                }
+                else if(nums[j-1]<nums[j]){
+                    ans=Math.max(ans,j-i);
+                    i=j;
+                }
+                even=false;
+            }
+            else{
+                if (nums[j] == nums[j - 1]) {
+                    ans = Math.max(ans, j - i);
+                    i = j;
+                    even = true;
+                }
+                else if(nums[j-1]>nums[j]){
+                    ans=Math.max(ans,j-i);
+                    i=j;
+                }
+                even=true;
+            }
+            j++;
+        }
+        ans=Math.max(ans,j-i);
+        return ans;
+    }
+}
