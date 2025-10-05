@@ -1,0 +1,28 @@
+class Solution {
+    public static int find(int grid[][],int i,int j,int m,int n){
+        if(i<0||j<0||i>=m||j>=n||grid[i][j]==0){
+            return -1;
+        }
+        int curr=grid[i][j];
+        grid[i][j]=0;
+        int ans=Math.max(
+            Math.max(find(grid,i+1,j,m,n),find(grid,i-1,j,m,n)),
+            Math.max(find(grid,i,j+1,m,n),find(grid,i,j-1,m,n))
+            
+        );
+        grid[i][j]=curr;
+        if(ans!=-1)return grid[i][j]+ans;
+        return grid[i][j];
+    }
+    public int getMaximumGold(int[][] grid) {
+        int ans=0,m=grid.length,n=grid[0].length;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]!=0){
+                    ans=Math.max(ans,find(grid,i,j,m,n));
+                }
+            }
+        }
+        return ans;
+    }
+}

@@ -1,0 +1,30 @@
+class Solution {
+    public int numberOfSpecialChars(String word) {
+        int arr[]=new int[52];
+        int idar[]=new int[52];
+        Arrays.fill(idar,-1);
+        for(int i=0;i<word.length();i++){
+            char ch=word.charAt(i);
+            if(ch>'Z'){
+                int idx=(int)(ch-'a');
+                arr[idx+26]++;
+                idar[idx+26]=i;
+            }
+            else{
+                int idx=(int)(ch-'A');
+                arr[idx]++;
+                if(idar[idx]==-1){
+                    idar[idx]=i;
+                }
+            }
+        }
+        int ans=0;
+        for(int i=0;i<26;i++){
+            if(arr[i]!=0&&arr[i+26]!=0&&idar[i+26]<idar[i]){
+                ans++;
+            }
+        }
+        return ans;
+        
+    }
+}
