@@ -1,0 +1,34 @@
+class Solution {
+    public int[] successfulPairs(int[] spells, int[] potions, long success) {
+        Arrays.sort(potions);
+        int n=potions.length;
+        int maxFact=potions[n-1];
+        int arr[]=new int[maxFact+1];
+        Arrays.fill(arr,-1);
+        for(int i=0;i<n;i++){
+            if(arr[potions[i]]==-1){
+                arr[potions[i]]=i;
+            }
+        }
+        for(int i=0;i<spells.length;i++){
+            int factor=(int)Math.ceil(success/(spells[i]+0.0));
+            if(factor<=maxFact&&arr[factor]!=-1){
+                int idx=arr[factor];
+                spells[i]=n-idx;
+            }
+            else if(factor<maxFact){
+                for(int j=factor+1;j<=maxFact;j++){
+                    if(arr[j]!=-1){
+                        int idx=arr[j];
+                        spells[i]=n-idx;
+                        break;
+                    }
+                }
+            }
+            else{
+                spells[i]=0;
+            }
+        }
+        return spells;
+    }
+}
