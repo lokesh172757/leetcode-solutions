@@ -1,0 +1,33 @@
+class Solution {
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+        int n = arr1.length, m = arr2.length;
+        if (n == 1) return arr1;
+
+        int max = -1;
+        for (int num : arr1) {
+            if (num > max) max = num;
+        }
+
+        int[] freq = new int[max + 1];
+        for (int num : arr1) freq[num]++;
+
+        int[] ans = new int[n];
+        int j = 0;
+
+        
+        for (int num : arr2) {
+            while (freq[num]-- > 0) {
+                ans[j++] = num;
+            }
+        }
+
+        
+        for (int k = 0; k <= max; k++) {
+            while (freq[k]-- > 0) {
+                ans[j++] = k;
+            }
+        }
+
+        return ans;
+    }
+}
