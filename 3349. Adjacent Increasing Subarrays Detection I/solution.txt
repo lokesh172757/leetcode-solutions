@@ -1,0 +1,28 @@
+class Solution {
+    public boolean hasIncreasingSubarrays(List<Integer> nums, int k) {
+        int n=nums.size();
+        int i=0,j=2*k-1;
+        while(j<n){
+            boolean f=true;
+            for(int m=i+1;m<i+k;m++){
+                if(nums.get(m)<=nums.get(m-1)){
+                    f=false;
+                    break;
+                }
+
+            }
+            if(f){
+                boolean s=true;
+                for(int m=i+k+1;m<=j;m++){
+                    if(nums.get(m)<=nums.get(m-1)){
+                        s=false;
+                    }
+                }
+                if(s)return true;
+            }
+            i++;
+            j++;
+        }
+        return false;
+    }
+}
