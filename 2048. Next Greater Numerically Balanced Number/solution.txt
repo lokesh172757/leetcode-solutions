@@ -1,0 +1,36 @@
+class Solution {
+    public static boolean check(int n){
+        int arr[]=new int[10];
+        int m=n;
+        while(n>0){
+            arr[n%10]++;
+            n/=10;
+        }
+        while(m>0){
+            if(arr[m%10]!=m%10)return false;
+            m/=10;
+        }
+        return true;
+    }
+    public int nextBeautifulNumber(int n) {
+        int l=n+1;
+        int d=0;
+        while(n>0){
+            d++;
+            n/=10;
+        }
+        d++;
+        n=d;
+        int r=0;
+        while(n>0){
+            r*=10;
+            r+=d;
+            n--;
+        }
+        int ans=r;
+        for(int i=l;i<=r;i++){
+            if(check(i))return i;
+        }
+        return r;
+    }
+}
