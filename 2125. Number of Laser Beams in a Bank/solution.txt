@@ -1,0 +1,24 @@
+class Solution {
+    public int numberOfBeams(String[] bank) {
+        int n=bank.length;
+        int arr[]=new int[n];
+        for(int i=0;i<n;i++){
+            int d=0;
+            for(int j=0;j<bank[i].length();j++){
+                if(bank[i].charAt(j)=='1'){
+                    d++;
+                }
+            }
+            arr[i]=d;
+        }
+        int i=0,j=1,ans=0;
+        while(j<n){
+            if(arr[j]!=0){
+                ans+=arr[i]*arr[j];
+                i=j;
+            }
+            j++;
+        }
+        return ans;
+    }
+}
