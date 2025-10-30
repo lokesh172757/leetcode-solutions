@@ -1,0 +1,21 @@
+class Solution {
+    public long minimumOperations(int[] nums, int[] target) {
+        int n = nums.length;
+        long ans = 0;
+        
+        int prev = 0;
+
+        for (int i = 0; i < n; i++) {
+            int diff=nums[i]-target[i];
+            if ((diff>= 0 && prev < 0) || (diff< 0 && prev >= 0)) {
+                ans += Math.abs(diff);
+            } else if (Math.abs(diff) > Math.abs(prev)) {
+                
+                ans += Math.abs(Math.abs(diff) - Math.abs(prev));
+            }
+            prev = diff;
+        }
+
+        return ans;
+    }
+}
