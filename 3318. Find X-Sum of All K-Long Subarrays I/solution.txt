@@ -1,0 +1,48 @@
+class Solution {
+    static class Pair implements Comparable<Pair>{
+        int f,n;
+        public Pair(int f,int n){
+            this.f=f;
+            this.n=n;
+        }
+        @Override
+        public int compareTo(Pair p2){
+            if(this.f==p2.f){
+                return p2.n-this.n;
+            }
+            return p2.f-this.f;
+        }
+
+    }
+    public static int fx(int nums[],int freq[],int x){
+        int sum=0;
+        PriorityQueue<Pair>pq=new PriorityQueue<>();
+        for(int k=1;k<=50;k++){
+            pq.add(new Pair(freq[k],k));
+        }
+        while(x>0){
+            sum+=pq.peek().n*pq.remove().f;
+            x--;
+        }
+        return sum;
+    }
+    public int[] findXSum(int[] nums, int k, int x) {
+        int n=nums.length;
+        int ans[]=new int[n-k+1];
+        
+        int freq[]=new int[51];
+        for(int i=0;i<k;i++){
+            freq[nums[i]]++;
+        }
+        int i=0,j=k-1;
+        while(j<n){
+            ans[i]=fx(nums,freq,x);
+            if (j + 1 == n) break;
+            freq[nums[i]]--;
+            i++;
+            j++;
+            freq[nums[j]]++;
+        }
+        return ans;
+    }
+}
