@@ -1,0 +1,20 @@
+class Solution {
+    public int longestStrChain(String[] words) {
+        int n = words.length;
+        HashMap<String, Integer> map = new HashMap<>();
+        Arrays.sort(words, Comparator.comparing(String::length));
+        int max = 1;
+        for (String str : words) {
+            int best = 1;
+            for (int j = 0; j < str.length(); j++) {
+                String subStr = str.substring(0, j) + str.substring(j + 1);
+                if (map.containsKey(subStr)) {
+                    best = Math.max(best, map.get(subStr) + 1);
+                }
+            }
+            map.put(str, best);
+            max = Math.max(max, best);
+        }
+        return max;
+    }
+}

@@ -1,0 +1,75 @@
+class Solution {
+    public static void dfs(ArrayList<Integer>graph[],int compId[],HashMap<Integer,TreeSet<Integer>>map,int c){
+        boolean vis[]=new boolean[c+1];
+        for(int i=1;i<=c;i++){
+            if(!vis[i]){
+                dfsUtil(graph,compId,map,vis,i,i);
+            }
+        }
+    }
+    public static void dfsUtil(ArrayList<Integer>graph[],int compId[],HashMap<Integer,TreeSet<Integer>>map,boolean vis[],int src,int id){
+        // visit source
+        vis[src]=true;
+        if(!map.containsKey(id)){
+            map.put(id,new TreeSet<Integer>());
+        }
+        map.get(id).add(src);
+        compId[src]=id;
+
+        // visit neighbours
+
+        for(int i=0;i<graph[src].size();i++){
+            int n=graph[src].get(i);
+            if(!vis[n]){
+                dfsUtil(graph,compId,map,vis,n,id);
+            }
+        }
+    }
+    
+    public int[] processQueries(int c, int[][] connections, int[][] queries) {
+        ArrayList<Integer>graph[]=new ArrayList[c+1];
+        for(int i=1;i<=c;i++){
+            graph[i]=new ArrayList<>();
+        }
+        for(int i=0;i<connections.length;i++){
+            int a=connections[i][0],b=connections[i][1];
+            graph[a].add(b);
+            graph[b].add(a);
+        }
+        HashMap<Integer,TreeSet<Integer>>map=new HashMap<>();
+        int compId[]=new int[c+1];
+        boolean online[]=new boolean[c+1];
+        Arrays.fill(online,true);
+        dfs(graph,compId,map,c);
+
+        // run queries
+        ArrayList<Integer>l=new ArrayList<>();
+        for(int i=0;i<queries.length;i++){
+            int a=queries[i][0],b=queries[i][1];
+            if(a==1){
+                if(online[b]){
+                    l.add(b);
+                }
+                else{
+                    int id=compId[b];
+                    if(map.get(id).size()==0){
+                        l.add(-1);
+                    }
+                    else{
+                        l.add(map.get(id).first());
+                    }
+                }
+            }
+            else{
+                map.get(compId[b]).remove(b);
+                online[b]=false;
+            }
+        }
+
+        int ans[]=new int[l.size()];
+        for(int i=0;i<ans.length;i++){
+            ans[i]=l.get(i);
+        }
+        return ans;
+    }
+}

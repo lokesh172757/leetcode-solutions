@@ -1,0 +1,32 @@
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        HashSet<Integer>set=new HashSet<>();
+        for(int num:nums){
+            set.add(num);
+        }
+        int arr[]=new int[set.size()];
+        int k=0;
+        for(Integer num:set){
+            arr[k]=num;
+            k++;
+        }
+        Arrays.sort(arr);
+        int n=arr.length;
+        int m=nums.length;
+        int dp[]=new int[m+1];
+        for(int i=1;i<n+1;i++){
+            int prevDiag=0;
+            for(int j=1;j<m+1;j++){
+                int temp=dp[j];
+                if(arr[i-1]==nums[j-1]){
+                    dp[j]=prevDiag+1;
+                }
+                else{
+                    dp[j]=Math.max(dp[j],dp[j-1]);
+                }
+                prevDiag=temp;
+            }
+        }
+        return dp[m];
+    }
+}
