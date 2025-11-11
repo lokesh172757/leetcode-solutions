@@ -1,0 +1,44 @@
+class Solution {
+    public static int help(int zero[], int one[], int idx, int m, int n, int dp[][][]) {
+        // base
+        if (idx >= zero.length) return 0;
+        if (dp[idx][m][n] != -1) return dp[idx][m][n];
+        
+        // not select
+        int ans1 = help(zero, one, idx + 1, m, n, dp);
+        
+        // select
+        int ans2 = 0;
+        if (zero[idx] <= m && one[idx] <= n) {
+            ans2 = 1 + help(zero, one, idx + 1, m - zero[idx], n - one[idx], dp);
+        }
+        
+        return dp[idx][m][n] = Math.max(ans1, ans2);
+    }
+
+    public int findMaxForm(String[] strs, int m, int n) {
+        int len = strs.length;
+        int zero[] = new int[len];
+        int one[] = new int[len];
+        int dp[][][] = new int[len + 1][m + 1][n + 1];
+
+        for (int a = 0; a <= len; a++) {
+            for (int b = 0; b <= m; b++) {
+                for (int c = 0; c <= n; c++) {
+                    dp[a][b][c] = -1;
+                }
+            }
+        }
+        for (int i = 0; i < len; i++) {
+            int z = 0, o = 0;
+            for (char ch : strs[i].toCharArray()) {
+                if (ch == '0') z++;
+                else o++;
+            }
+            zero[i] = z;
+            one[i] = o;
+        }
+
+        return help(zero, one, 0, m, n, dp);
+    }
+}
