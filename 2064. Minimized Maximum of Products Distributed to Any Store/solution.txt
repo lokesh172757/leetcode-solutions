@@ -1,0 +1,44 @@
+class Solution {
+    public static boolean check(int p,int quantities[],int n){
+        int i=0,j=n;
+        while(i<quantities.length){
+            int prod=quantities[i];
+            while(prod>0){
+                if(j>0){
+                    prod-=p;
+                }
+                else{
+                    return false;
+                }
+                j--;
+            }
+            i++;
+        }
+        return true;
+    }
+    public int minimizedMaximum(int n, int[] quantities) {
+        int m=quantities.length;
+        int min=Integer.MAX_VALUE,max=0;
+        long sum=0;
+        for(int i=0;i<m;i++){
+            if(quantities[i]>max)max=quantities[i];
+            if(quantities[i]<min)min=quantities[i];
+            sum+=quantities[i];
+        }
+        if(m==n)return max;
+        if(sum<=n)return 1;
+        int ans=max,st=1,end=max;
+        while(st<=end){
+            int mid=st+(end-st)/2;
+            if(check(mid,quantities,n)){
+                ans=mid;
+                end=mid-1;
+            }
+            else{
+                st=mid+1;
+            }
+        }
+        return ans;
+
+    }
+}
