@@ -1,0 +1,34 @@
+class Solution {
+    public int countPalindromicSubsequence(String s) {
+        int n=s.length(),ans=0;
+        HashSet<Character>set=new HashSet<>();
+        for(int i=0;i<n;i++){
+            set.add(s.charAt(i));
+        }
+        for(Character c:set){
+            int st=-1,end=-1;
+            for(int i=0;i<n;i++){
+                if(s.charAt(i)==c){
+                    if(st==-1){
+                        st=i;
+                    }
+                    else{
+                        end=i;
+                    }
+                }
+            }
+           
+            if(st!=-1&&end!=-1){
+                HashSet<Character>set2=new HashSet<>();
+                for(int i=st+1;i<end;i++){
+                    if(!set2.contains(s.charAt(i))){
+                        ans++;
+                        set2.add(s.charAt(i));
+                    }
+                }
+            }
+            
+        }
+        return ans;
+    }
+}
