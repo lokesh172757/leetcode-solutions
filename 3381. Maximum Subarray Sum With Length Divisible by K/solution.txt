@@ -1,0 +1,29 @@
+class Solution {
+    public long maxSubarraySum(int[] nums, int k) {
+        long max = Long.MIN_VALUE;
+        int n = nums.length;
+
+        long[] prefix = new long[n];
+        prefix[0] = nums[0];
+        for (int i = 1; i < n; i++) {
+            prefix[i] = prefix[i-1] + nums[i];
+        }
+
+        for (int s = 0; s < k; s++) {
+            long currSum = 0;
+
+            for (int i = s, j = i + k - 1; j < n; j += k) {
+                long subSum;
+                if (i == 0) subSum = prefix[j];
+                else subSum = prefix[j] - prefix[i - 1];
+
+                currSum = Math.max(subSum, currSum + subSum);
+                max = Math.max(max, currSum);
+
+                i += k;
+            }
+        }
+
+        return max;
+    }
+}
