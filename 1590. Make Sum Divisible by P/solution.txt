@@ -1,0 +1,25 @@
+class Solution {
+    public int minSubarray(int[] nums, int p) {
+        int rem=0,n=nums.length;
+        for(int num:nums){
+            rem=(rem+num)%p;
+        }
+        if(rem==0)return 0;
+        HashMap<Integer,Integer>map=new HashMap<>();
+        map.put(0,-1);
+        int ans=Integer.MAX_VALUE,sum=0;
+
+        for(int i=0;i<n;i++){
+            sum=(nums[i]+sum)%p;
+            if(map.containsKey((sum-rem+p)%p)){
+                int j=map.get((sum-rem+p)%p);
+                if(i-j<n){
+                    ans=Math.min(ans,i-j);
+                }
+                
+            }
+            map.put(sum,i);
+        }
+        return ans==Integer.MAX_VALUE?-1:ans;
+    }
+}

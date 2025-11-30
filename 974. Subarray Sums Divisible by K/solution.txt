@@ -1,0 +1,16 @@
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+       int[] freq = new int[k];
+        freq[0] = 1;
+        int sum = 0, ans = 0;
+        for(int num:nums){
+            sum=(sum+num)%k;
+            int t=(sum+k)%k;
+            if(freq[t]!=0){
+                ans+=freq[t];
+            }
+            freq[t]++;
+        }
+        return ans;
+    }
+}
