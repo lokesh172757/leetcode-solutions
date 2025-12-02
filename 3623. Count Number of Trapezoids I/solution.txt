@@ -1,0 +1,30 @@
+class Solution {
+    public int countTrapezoids(int[][] points) {
+        Arrays.sort(points, Comparator.comparingInt(a -> a[1]));
+        int mod = (int)1e9 + 7;
+        long ans = 0, sum = 0;
+        int n = points.length;
+        int count = 1;
+
+        for (int i = 1; i < n; i++) {
+            if (points[i][1] == points[i - 1][1]) {
+                count++;
+            } else {
+                if (count >= 2) {
+                    long C = (long) count * (count - 1) / 2;
+                    ans = (ans + C * sum) % mod;
+                    sum = (sum + C) % mod;
+                }
+                count = 1;
+            }
+        }
+
+        if (count >= 2) {
+            long C = (long) count * (count - 1) / 2;
+            ans = (ans + C * sum) % mod;
+            sum = (sum + C) % mod;
+        }
+
+        return (int) ans;
+    }
+}
