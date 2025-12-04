@@ -1,0 +1,28 @@
+class Solution {
+    public int countCollisions(String directions) {
+        int r=0,l=0,ans=0;
+        boolean accident=false;
+        for(int i=0;i<directions.length();i++){
+            char c=directions.charAt(i);
+            if(c=='L'){
+                if(r>0){
+                    ans+=r+1;
+                    r=0;
+                    accident=true;
+                }
+                else if(accident){
+                    ans++;
+                }
+            }
+            else if(c=='R'){
+                r++;
+            }
+            else{
+                accident=true;
+                ans+=r;
+                r=0;
+            }
+        }
+        return ans;
+    }
+}
