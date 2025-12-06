@@ -1,0 +1,42 @@
+class Solution {
+    static class Pair implements Comparable<Pair>{
+        int a,b,d;
+        public Pair(int a,int b,int d){
+            this.a=a;
+            this.b=b;
+            this.d=d;
+        }
+        @Override
+        public int compareTo(Pair p2){
+            return this.d-p2.d;
+        }
+    }
+    public long maxPoints(int[] technique1, int[] technique2, int k) {
+        PriorityQueue<Pair>pq=new PriorityQueue<>();
+        long ans=0;
+        for(int i=0;i<technique1.length;i++){
+            if(technique1[i]>=technique2[i]){
+                ans+=technique1[i];
+                k--;
+            }
+            else{
+                if(k>0){
+                    pq.add(new Pair(technique1[i],technique2[i],technique2[i]-technique1[i]));
+                }
+                else{
+                    ans+=technique2[i];
+                }
+            }
+        }
+        while(!pq.isEmpty()){
+            if(k>0){
+                ans+=pq.remove().a;
+                k--;
+            }
+            else{
+                ans+=pq.remove().b;
+            }
+        }
+        return ans;
+    }
+}
