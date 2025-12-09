@@ -1,0 +1,18 @@
+class Solution {
+    public List<Integer> addToArrayForm(int[] num, int k) {
+        for(int i=num.length-1;i>=0;i--){
+            k+=num[i];
+            num[i]=k%10;
+            k/=10;
+        }
+        List<Integer>l=new ArrayList<>();
+        while(k>0){
+            l.addFirst(k%10);
+            k/=10;
+        }
+        for(int i=0;i<num.length;i++){
+            l.add(num[i]);
+        }
+        return l;
+    }
+}
