@@ -1,0 +1,15 @@
+class Solution {
+    public int numIdenticalPairs(int[] nums) {
+        int max=0;
+        for(int i=0;i<nums.length;i++){
+            max=Math.max(nums[i],max);
+        }
+        int arr[]=new int[max+1];
+        int ans=0;
+        for(int i=0;i<nums.length;i++){
+            ans+=arr[nums[i]];
+            arr[nums[i]]++;
+        }
+        return ans;
+    }
+}
