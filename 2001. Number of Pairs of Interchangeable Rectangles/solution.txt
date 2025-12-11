@@ -1,0 +1,14 @@
+class Solution {
+    public long interchangeableRectangles(int[][] rectangles) {
+        long ans=0;
+        HashMap<Double,Integer>map=new HashMap<>();
+        for(int[]rec:rectangles){
+            double ratio=(double)rec[0]/rec[1];
+            if(map.containsKey(ratio)){
+                ans+=map.get(ratio);
+            }
+            map.put(ratio,map.getOrDefault(ratio,0)+1);
+        }
+        return ans;
+    }
+}
