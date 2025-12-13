@@ -1,0 +1,42 @@
+class Solution {
+    static class Pair implements Comparable<Pair>{
+        String a,b;
+        public Pair(String a,String b){
+            this.a=a;
+            this.b=b;
+        }
+        @Override
+        public int compareTo(Pair p2){
+            if(this.b.equals(p2.b)){
+                return this.a.compareTo(p2.a);
+            }
+            return this.b.compareTo(p2.b);
+        }
+    }
+    public static boolean isValid(String s){
+        if(s.length()==0)return false;
+        for(int i=0;i<s.length();i++){
+            char c=s.charAt(i);
+            if((c>='a'&&c<='z')||(c>='A'&&c<='Z')||(c>='0'&&c<='9')||c=='_'){
+                continue;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+    public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
+        List<String>ans=new ArrayList<>();
+        PriorityQueue<Pair>pq=new PriorityQueue<>();
+        for(int i=0;i<code.length;i++){
+            if(isActive[i]&&(businessLine[i].equals("electronics")||businessLine[i].equals("grocery")||businessLine[i].equals("pharmacy")||businessLine[i].equals("restaurant"))&&isValid(code[i])){
+                pq.add(new Pair(code[i],businessLine[i]));
+            }
+        }
+        while(!pq.isEmpty()){
+            ans.add(pq.remove().a);
+        }
+        return ans;
+    }
+}
