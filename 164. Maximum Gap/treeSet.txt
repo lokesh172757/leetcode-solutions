@@ -1,0 +1,17 @@
+class Solution {
+    public int maximumGap(int[] nums) {
+        TreeSet<Integer>set=new TreeSet<>();
+        for(int num:nums){
+            set.add(num);
+        }
+        int last=-1,ans=0;
+        for(Integer num:set){
+            if(last==-1)last=num;
+            else{
+                ans=Math.max(num-last,ans);
+                last=num;
+            }
+        }
+        return ans;
+    }
+}

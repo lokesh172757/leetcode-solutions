@@ -1,0 +1,23 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        int sfreq[]=new int[10],gfreq[]=new int[10];
+        int bull=0,cow=0,s=secret.length();
+        for(int i=0;i<s;i++){
+            if(secret.charAt(i)==guess.charAt(i)){
+                bull++;
+            }
+            else{
+                sfreq[(int)(secret.charAt(i)-'0')]++;
+                gfreq[(int)(guess.charAt(i)-'0')]++;
+            }
+        }
+        for(int i=0;i<10;i++){
+            if(gfreq[i]>0&&sfreq[i]>0){
+                cow+=Math.min(gfreq[i],sfreq[i]);
+            }
+        }
+        StringBuilder sb=new StringBuilder("");
+        sb.append(bull).append("A").append(cow).append("B");
+        return sb.toString();
+    }
+}
