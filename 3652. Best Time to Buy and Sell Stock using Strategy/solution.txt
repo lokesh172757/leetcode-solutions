@@ -1,0 +1,25 @@
+class Solution {
+    public long maxProfit(int[] prices, int[] strategy, int k) {
+        int n=prices.length;
+        long originalSumPrefix[]=new long[n],pricePrefix[]=new long[n];
+        originalSumPrefix[0]=prices[0]*strategy[0];
+        pricePrefix[0]=prices[0];
+        for(int i=1;i<n;i++){
+            originalSumPrefix[i]=originalSumPrefix[i-1]+prices[i]*strategy[i];
+            pricePrefix[i]=pricePrefix[i-1]+prices[i];
+        }
+        long ans=originalSumPrefix[n-1];
+        int i=0,j=k-1;
+        while(j<n){
+            long preSum=0,postSum=0,windowSum=0;
+            if(i>0)preSum=originalSumPrefix[i-1];
+            if(j<n-1)postSum=originalSumPrefix[n-1]-originalSumPrefix[j];
+            int st=i+k/2;
+            windowSum=pricePrefix[j]-pricePrefix[st-1];
+            ans=Math.max(ans,windowSum+preSum+postSum);
+            i++;
+            j++;
+        }
+        return ans;
+    }
+}
