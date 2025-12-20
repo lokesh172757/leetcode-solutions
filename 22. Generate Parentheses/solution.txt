@@ -1,0 +1,29 @@
+class Solution {
+    public static void generate(List<String> ans, int open, int close, StringBuilder sb) {
+
+        if (open == 0 && close == 0) {
+            ans.add(sb.toString());
+            return;
+        }
+
+        // choose '('
+        if (open > 0) {
+            sb.append('(');
+            generate(ans, open - 1, close, sb);
+            sb.setLength(sb.length() - 1); // backtrack
+        }
+
+        // choose ')'
+        if (close > open) {
+            sb.append(')');
+            generate(ans, open, close - 1, sb);
+            sb.setLength(sb.length() - 1); // backtrack
+        }
+    }
+
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<>();
+        generate(ans, n, n, new StringBuilder());
+        return ans;
+    }
+}

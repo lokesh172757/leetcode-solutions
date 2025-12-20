@@ -1,0 +1,56 @@
+class Solution {
+
+    static class Pair implements Comparable<Pair> {
+        int f;
+        char c;
+
+        Pair(int f, char c) {
+            this.f = f;
+            this.c = c;
+        }
+
+        @Override
+        public int compareTo(Pair p2) {
+            return p2.f - this.f; // max heap
+        }
+    }
+
+    public String reorganizeString(String s) {
+
+        int[] freq = new int[26];
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
+        }
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for (int i = 0; i < 26; i++) {
+            if (freq[i] > 0) {
+                pq.add(new Pair(freq[i], (char) (i + 'a')));
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        while (pq.size() > 1) {
+            Pair p1 = pq.poll();
+            Pair p2 = pq.poll();
+
+            sb.append(p1.c);
+            sb.append(p2.c);
+
+            p1.f--;
+            p2.f--;
+
+            if (p1.f > 0) pq.add(p1);
+            if (p2.f > 0) pq.add(p2);
+        }
+
+        if (!pq.isEmpty()) {
+            Pair last = pq.poll();
+            if (last.f > 1) return "";
+            sb.append(last.c);
+        }
+
+        return sb.toString();
+    }
+}
