@@ -1,0 +1,45 @@
+class Solution {
+
+    static Integer[][] dp;
+
+    public static int binary(int[][] events, int startIdx, int end) {
+        int s = startIdx, e = events.length - 1, ans = -1;
+        while (s <= e) {
+            int mid = s + (e - s) / 2;
+            if (events[mid][0] > end) {
+                ans = mid;
+                e = mid - 1;
+            } else {
+                s = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    public static int helper(int[][] events, int i, int count,int dp[][]) {
+        if (count == 2 || i >= events.length) {
+            return 0;
+        }
+
+        if (dp[i][count] != 0) {
+            return dp[i][count];
+        }
+
+        int valid = binary(events, i + 1, events[i][1]);
+        int take =events[i][2];
+
+        if (valid != -1) {
+            take +=helper(events, valid, count + 1,dp);
+        }
+
+        int notTake = helper(events, i + 1, count,dp);
+
+        return dp[i][count] = Math.max(take, notTake);
+    }
+
+    public int maxTwoEvents(int[][] events) {
+        Arrays.sort(events, Comparator.comparingInt(o -> o[0]));
+        int dp[][] = new int[events.length][2];
+        return helper(events, 0, 0,dp);
+    }
+}
