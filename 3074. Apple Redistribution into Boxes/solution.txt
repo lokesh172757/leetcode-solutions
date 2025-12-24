@@ -1,0 +1,26 @@
+class Solution {
+    public int minimumBoxes(int[] apple, int[] capacity) {
+        int sum=0;
+        for(int i:apple){
+            sum+=i;
+        }
+        int max=0;
+        for(int i:capacity){
+            max=Math.max(i,max);
+        }
+        int freq[]=new int[max+1];
+        for(int i:capacity){
+            freq[i]++;
+        }
+        int ans=0,i=max;
+        while(i>=0&&sum>0){
+            while(i>=0&&freq[i]==0){
+                i--;
+            }
+            sum-=i;
+            ans++;
+            freq[i]--;
+        }
+        return ans;
+    }
+}
