@@ -1,0 +1,51 @@
+class Solution {
+    public static void checkPath(int[][] graph,int dp[],boolean vis[],int src){
+        if(graph[src].length==0){
+            dp[src]=1;
+            return;
+        }
+        if(dp[src]!=0){
+            return;
+        }
+        else if(vis[src]){
+            dp[src]=-1;
+            return;
+        }
+
+        vis[src]=true;
+        boolean ans=true;
+        for(int i=0;i<graph[src].length;i++){
+            checkPath(graph,dp,vis,graph[src][i]);
+            ans=ans&&(dp[graph[src][i]]==1);
+            if(!ans)break;
+        }
+        if(ans){
+            dp[src]=1;
+        }
+        else{
+            dp[src]=-1;
+        }
+        vis[src]=false;
+    }
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n=graph.length;
+        boolean vis[]=new boolean[n];
+        int dp[]=new int[n];
+        for(int i=0;i<n;i++){
+            if(graph[i].length==0){
+                dp[i]=1;
+            }
+            else{
+                checkPath(graph,dp,vis,i);
+            }
+        }
+        List<Integer>ans=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            if(dp[i]==1){
+                ans.add(i);
+            }
+        }
+        return ans;
+
+    }
+}
