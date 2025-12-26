@@ -1,0 +1,32 @@
+class Solution {
+    public int bestClosingTime(String customers) {
+        int n=customers.length();
+        int yes[]=new int[n];
+        int no[]=new int[n];
+        for(int i=0;i<n;i++){
+            if(customers.charAt(i)=='Y'){
+                yes[i]=1;
+            }
+            else{
+                no[i]=1;
+            }
+            if(i!=0){
+                yes[i]+=yes[i-1];
+                no[i]+=no[i-1];
+            }
+            
+        }
+        if(yes[n-1]==n)return n;
+        int ans=-1,min=Integer.MAX_VALUE;
+        for(int i = 0; i <= n; i++) {
+            int pn = i == 0 ? 0 : no[i-1];
+            int py = i == n ? 0 : yes[n-1] - (i == 0 ? 0 : yes[i-1]);
+
+            if (pn + py < min) {
+                min = pn + py;
+                ans = i;
+            }
+        }
+        return ans;
+    }
+}

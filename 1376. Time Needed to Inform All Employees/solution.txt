@@ -1,0 +1,32 @@
+class Solution {
+
+    public static void findTime(int src, int[] manager, int[] informTime, boolean[] vis, int[] dp) {
+
+        if (dp[src] != -1) return;
+
+        if (manager[src] == -1) {
+            dp[src] = informTime[src];
+            return;
+        }
+
+        vis[src] = true;
+        findTime(manager[src], manager, informTime, vis, dp);
+        dp[src] = informTime[src] + dp[manager[src]];
+
+        vis[src] = false;
+    }
+
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+
+        boolean[] vis = new boolean[n];
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            findTime(i, manager, informTime, vis, dp);
+            ans = Math.max(ans, dp[i]);
+        }
+        return ans;
+    }
+}
