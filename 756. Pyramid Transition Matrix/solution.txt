@@ -1,0 +1,31 @@
+class Solution {
+    public static boolean isPossible(String curr,HashMap<String,ArrayList<Character>>map,StringBuilder next,int idx){
+        if(idx>=curr.length()){
+            curr=next.toString();
+            next=new StringBuilder("");
+            idx=1;
+        }
+        if(curr.length()==1)return true;
+        String pair=curr.substring(idx-1,idx+1);
+        if(map.containsKey(pair)){
+            for(int i=0;i<map.get(pair).size();i++){
+                next.append(map.get(pair).get(i));
+                if(isPossible(curr,map,next,idx+1))return true;
+                next.setLength(next.length()-1);
+            }
+        }
+        return false;
+    }
+    public boolean pyramidTransition(String bottom, List<String> allowed) {
+        HashMap<String,ArrayList<Character>>map=new HashMap<>();
+        for(int i=0;i<allowed.size();i++){
+            String pair=allowed.get(i).substring(0,2);
+            char c=allowed.get(i).charAt(2);
+            if(!map.containsKey(pair)){
+                map.put(pair,new ArrayList<>());
+            }
+            map.get(pair).add(c);
+        }
+        return isPossible(bottom,map,new StringBuilder(""),1);
+    }
+}
