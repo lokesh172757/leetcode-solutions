@@ -1,0 +1,60 @@
+class Solution {
+
+    public static boolean check(int[][] grid, int i, int j) {
+
+        int[] freq = new int[10];
+        int sum = 0;
+
+        for (int r = i; r < i + 3; r++) {
+            for (int c = j; c < j + 3; c++) {
+                int val = grid[r][c];
+                if (val < 1 || val > 9 || freq[val] == 1) {
+                    return false;
+                }
+                freq[val] = 1;
+            }
+        }
+
+        for (int r = i; r < i + 3; r++) {
+            int currSum = 0;
+            for (int c = j; c < j + 3; c++) {
+                currSum += grid[r][c];
+            }
+            if (r == i) sum = currSum;
+            else if (currSum != sum) return false;
+        }
+
+        for (int c = j; c < j + 3; c++) {
+            int currSum = 0;
+            for (int r = i; r < i + 3; r++) {
+                currSum += grid[r][c];
+            }
+            if (currSum != sum) return false;
+        }
+
+        int diag1 = 0;
+        for (int k = 0; k < 3; k++) {
+            diag1 += grid[i + k][j + k];
+        }
+        if (diag1 != sum) return false;
+
+        int diag2 = 0;
+        for (int k = 0; k < 3; k++) {
+            diag2 += grid[i + k][j + 2 - k];
+        }
+        if (diag2 != sum) return false;
+
+        return true;
+    }
+
+    public int numMagicSquaresInside(int[][] grid) {
+        int ans = 0;
+
+        for (int i = 0; i < grid.length - 2; i++) {
+            for (int j = 0; j < grid[0].length - 2; j++) {
+                if (check(grid, i, j)) ans++;
+            }
+        }
+        return ans;
+    }
+}
