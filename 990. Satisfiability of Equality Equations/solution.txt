@@ -1,0 +1,50 @@
+class Solution {
+    public static int find(int[] par, int x) {
+        if (par[x] != x) {
+            par[x] = find(par, par[x]);
+        }
+        return par[x];
+    }
+    public static void union(int[] par, int[] rank, int a, int b) {
+        int pa = find(par, a);
+        int pb = find(par, b);
+
+        if (pa == pb) return;
+
+        if (rank[pa] < rank[pb]) {
+            par[pa] = pb;
+        } else if (rank[pa] > rank[pb]) {
+            par[pb] = pa;
+        } else {
+            par[pb] = pa;
+            rank[pa]++;
+        }
+    }
+
+    public boolean equationsPossible(String[] equations) {
+        int[] par = new int[26];
+        int[] rank = new int[26];
+
+        for (int i = 0; i < 26; i++) {
+            par[i] = i;
+        }
+        for (String eq : equations) {
+            if (eq.charAt(1) == '=') {
+                int a = eq.charAt(0) - 'a';
+                int b = eq.charAt(3) - 'a';
+                union(par, rank, a, b);
+            }
+        }
+        for (String eq : equations) {
+            if (eq.charAt(1) == '!') {
+                int a = eq.charAt(0) - 'a';
+                int b = eq.charAt(3) - 'a';
+                if (find(par, a) == find(par, b)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}

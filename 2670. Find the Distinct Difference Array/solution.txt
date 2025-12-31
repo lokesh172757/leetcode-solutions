@@ -1,0 +1,29 @@
+class Solution {
+    public int[] distinctDifferenceArray(int[] nums) {
+        int freq[]=new int[51];
+        int pre[]=new int[nums.length];
+        int dist=0,n=nums.length;
+        for(int i=0;i<n;i++){
+            if(freq[nums[i]]==0){
+                dist++;
+                freq[nums[i]]=1;
+            }
+            pre[i]=dist;
+        }
+        freq=new int[51];
+        int suff[]=new int[n];
+        dist=0;
+        for(int i=n-1;i>=0;i--){
+            if(freq[nums[i]]==0){
+                dist++;
+                freq[nums[i]]=1;
+            }
+            suff[i]=dist;
+        }
+        for(int i=0;i<n-1;i++){
+            nums[i]=pre[i]-suff[i+1];
+        }
+        nums[n-1]=pre[n-1];
+        return nums;
+    }
+}
