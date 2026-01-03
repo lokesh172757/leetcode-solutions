@@ -1,0 +1,50 @@
+class Solution {
+    static List<List<String>> ans;
+
+    // Check palindrome using original string + DP
+    public static boolean isPal(String s, int[][] dp, int i, int j) {
+        if (dp[i][j] != -1) {
+            return dp[i][j] == 1;
+        }
+
+        int l = i, r = j;
+        while (l < r) {
+            if (s.charAt(l) != s.charAt(r)) {
+                dp[i][j] = 0;
+                return false;
+            }
+            l++;
+            r--;
+        }
+        dp[i][j] = 1;
+        return true;
+    }
+
+    public static void helper(String s, int start, ArrayList<String> curr, int[][] dp) {
+        if (start == s.length()) {
+            ans.add(new ArrayList<>(curr));
+            return;
+        }
+
+        for (int end = start; end < s.length(); end++) {
+            if (isPal(s, dp, start, end)) {
+                curr.add(s.substring(start, end + 1));
+                helper(s, end + 1, curr, dp);
+                curr.remove(curr.size() - 1);
+            }
+        }
+    }
+
+    public List<List<String>> partition(String s) {
+        ans = new ArrayList<>();
+        int n = s.length();
+        int[][] dp = new int[n][n];
+
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        helper(s, 0, new ArrayList<>(), dp);
+        return ans;
+    }
+}
