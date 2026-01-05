@@ -1,0 +1,25 @@
+class Solution {
+    public long maxMatrixSum(int[][] matrix) {
+        long sum = 0;
+        int negCount = 0;
+        int minAbs = Integer.MAX_VALUE;
+        boolean hasZero = false;
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                int n = matrix[i][j];
+
+                if (n < 0) negCount++;
+                if (n == 0) hasZero = true;
+
+                int abs = Math.abs(n);
+                sum += abs;
+                minAbs = Math.min(minAbs, abs);
+            }
+        }
+        if (negCount % 2 == 0 || hasZero) {
+            return sum;
+        }
+        return sum - 2L * minAbs;
+    }
+}
