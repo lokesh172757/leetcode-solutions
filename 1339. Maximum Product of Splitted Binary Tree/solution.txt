@@ -1,0 +1,26 @@
+class Solution {
+    static long total,max;
+    static int mod=(int)1e9+7;
+    public static long findMax(TreeNode root){
+        if(root==null)return 0;
+        long left=findMax(root.left);
+        long right=findMax(root.right);
+        long leftBreak=left*(total-left);
+        long rightBreak=right*(total-right);
+        max=Math.max(max,Math.max(leftBreak,rightBreak));
+        return left+right+root.val;
+    }
+    public static void findTotal(TreeNode root){
+        if(root==null)return;
+        total+=root.val;
+        findTotal(root.left);
+        findTotal(root.right);
+    }
+    public int maxProduct(TreeNode root) {
+        total=0;
+        max=0;
+        findTotal(root);
+        findMax(root);
+        return (int)(max%mod);
+    }
+}
