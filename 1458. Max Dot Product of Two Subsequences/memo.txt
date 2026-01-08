@@ -1,0 +1,28 @@
+class Solution {
+    public static int helper(int[] nums1, int[] nums2, int i, int j, int[][] dp) {
+        if (i == nums1.length || j == nums2.length) {
+            return Integer.MIN_VALUE;
+        }
+
+        if (dp[i][j] != Integer.MIN_VALUE) return dp[i][j];
+
+        int take = nums1[i] * nums2[j];
+        int next = helper(nums1, nums2, i + 1, j + 1, dp);
+        if (next != Integer.MIN_VALUE) {
+            take += Math.max(0, next);
+        }
+
+        int skip1 = helper(nums1, nums2, i + 1, j, dp);
+        int skip2 = helper(nums1, nums2, i, j + 1, dp);
+
+        return dp[i][j] = Math.max(take, Math.max(skip1, skip2));
+    }
+
+    public int maxDotProduct(int[] nums1, int[] nums2) {
+        int m = nums1.length, n = nums2.length;
+        int[][] dp = new int[m][n];
+        for (int[] row : dp) Arrays.fill(row, Integer.MIN_VALUE);
+
+        return helper(nums1, nums2, 0, 0, dp);
+    }
+}
