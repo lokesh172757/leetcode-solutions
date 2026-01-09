@@ -1,0 +1,46 @@
+class Solution {
+    static TreeNode ans;
+    public static void findDist(TreeNode root,HashMap<Integer,Integer>map,int dist){
+        if(root==null)return;
+        map.put(root.val,dist);
+        findDist(root.left,map,dist+1);
+        findDist(root.right,map,dist+1);
+    }
+    public static int findTree(TreeNode root,HashMap<Integer,Integer>map,int max,int count){
+        if(root==null)return 0;
+        if(map.get(root.val)==max){
+            if(count==1){
+                ans=root;
+                return 0;
+            }
+            return 1;
+        }
+        int delCount=findTree(root.left,map,max,count)+findTree(root.right,map,max,count);
+        if(delCount==count){
+            ans=root;
+            return 0;
+        }
+        
+        return delCount;
+        
+    }
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        HashMap<Integer,Integer>map=new HashMap<>();
+        findDist(root,map,0);
+        int max=-1;
+        int count=0;
+        ans=null;
+        for(Integer node:map.keySet()){
+            if(max<map.get(node)){
+                max=map.get(node);
+                count=1;
+            }
+            else if(map.get(node)==max){
+                count++;
+            }
+
+        }
+        findTree(root,map,max,count);
+        return ans;
+    }
+}
