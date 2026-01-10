@@ -1,0 +1,26 @@
+class Solution {
+    public int myAtoi(String s) {
+        boolean neg=false;
+        int ans=0,i=0,n=s.length();
+        while(i<n&&s.charAt(i)==' ')i++;
+        if(i==n)return 0;
+        if(s.charAt(i)=='-'){
+            neg=true;
+            i++;
+        }
+        else if(s.charAt(i)=='+')i++;
+        while(i<n){
+            char c=s.charAt(i);
+            if(c<'0'||c>'9')break;
+            int dig=(int)(c-'0');
+            if(ans>Integer.MAX_VALUE/10||(ans==Integer.MAX_VALUE/10&&dig>Integer.MAX_VALUE%10)){
+                if(neg)return Integer.MIN_VALUE;
+                return Integer.MAX_VALUE;
+            }
+            ans=ans*10+dig;
+            i++;
+        }
+        if(neg)ans*=-1;
+        return ans;
+    }
+}
