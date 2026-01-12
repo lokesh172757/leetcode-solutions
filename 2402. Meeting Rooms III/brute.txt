@@ -1,0 +1,45 @@
+class Solution {
+    public int mostBooked(int n, int[][] meetings) {
+
+        Arrays.sort(meetings, Comparator.comparingInt(a -> a[0]));
+
+        long[] arr = new long[n];
+        int[] freq = new int[n];
+
+        for (int i = 0; i < meetings.length; i++) {
+            long start = meetings[i][0];
+            long duration = meetings[i][1] - meetings[i][0];
+
+            int room = -1;
+
+            for (int j = 0; j < n; j++) {
+                if (arr[j] <= start) {
+                    room = j;
+                    break;
+                }
+            }
+            if (room == -1) {
+                long minEnd = Long.MAX_VALUE;
+                for (int j = 0; j < n; j++) {
+                    if (arr[j] < minEnd) {
+                        minEnd = arr[j];
+                        room = j;
+                    }
+                }
+                arr[room] = minEnd + duration;
+            } else {
+                arr[room] = start + duration;
+            }
+
+            freq[room]++;
+        }
+        int ans = 0;
+        for (int i = 1; i < n; i++) {
+            if (freq[i] > freq[ans]) {
+                ans = i;
+            }
+        }
+
+        return ans;
+    }
+}
