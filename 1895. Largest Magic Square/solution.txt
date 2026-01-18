@@ -1,48 +1,79 @@
 class Solution {
 
-    public static boolean check(int[][] grid, int i, int j, int k) {
+    public static boolean check(int[][] grid, int i, int j, int k,int[][] rowSum, int[][] colSum) {
         int sum = 0;
 
+        // Check rows
         for (int r = i; r < i + k; r++) {
-            int currSum = 0;
-            for (int c = j; c < j + k; c++) {
-                currSum += grid[r][c];
-            }
+            int currSum;
+            if (j == 0)
+                currSum = rowSum[r][j + k - 1];
+            else
+                currSum = rowSum[r][j + k - 1] - rowSum[r][j - 1];
+
             if (r == i) sum = currSum;
             else if (currSum != sum) return false;
         }
 
+        // Check columns
         for (int c = j; c < j + k; c++) {
-            int currSum = 0;
-            for (int r = i; r < i + k; r++) {
-                currSum += grid[r][c];
-            }
+            int currSum;
+            if (i == 0)
+                currSum = colSum[i + k - 1][c];
+            else
+                currSum = colSum[i + k - 1][c] - colSum[i - 1][c];
+
             if (currSum != sum) return false;
         }
 
+        // Diagonal 1
         int diag1 = 0;
-        for (int l = 0; l < k; l++) {
+        for (int l = 0; l < k; l++)
             diag1 += grid[i + l][j + l];
-        }
         if (diag1 != sum) return false;
 
+        // Diagonal 2
         int diag2 = 0;
-        for (int l = 0; l < k; l++) {
+        for (int l = 0; l < k; l++)
             diag2 += grid[i + l][j + k - 1 - l];
-        }
         if (diag2 != sum) return false;
 
         return true;
+    }
+
+    public static void fillRowCol(int[][] rowSum, int[][] colSum, int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+
+        // Row prefix sum
+        for (int i = 0; i < m; i++) {
+            rowSum[i][0] = grid[i][0];
+            for (int j = 1; j < n; j++) {
+                rowSum[i][j] = rowSum[i][j - 1] + grid[i][j];
+            }
+        }
+
+        // Column prefix sum
+        for (int j = 0; j < n; j++) {
+            colSum[0][j] = grid[0][j];
+            for (int i = 1; i < m; i++) {
+                colSum[i][j] = colSum[i - 1][j] + grid[i][j];
+            }
+        }
     }
 
     public int largestMagicSquare(int[][] grid) {
         int m = grid.length, n = grid[0].length;
         int ans = 1;
 
+        int[][] rowSum = new int[m][n];
+        int[][] colSum = new int[m][n];
+
+        fillRowCol(rowSum, colSum, grid);
+
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 2; i + k <= m && j + k <= n; k++) {
-                    if (check(grid, i, j, k)) {
+                    if (check(grid, i, j, k, rowSum, colSum)) {
                         ans = Math.max(ans, k);
                     }
                 }
