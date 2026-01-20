@@ -1,0 +1,15 @@
+class Solution {
+    public int[] minBitwiseArray(List<Integer> nums) {
+        int ans[]=new int[nums.size()];
+        Arrays.fill(ans,Integer.MAX_VALUE);
+        for(int i=0;i<nums.size();i++){
+            int n=nums.get(i),x=n-1;
+            while(x>=0){
+                if((x|(x+1))==n)ans[i]=Math.min(x,ans[i]);
+                x--;
+            }
+            if(ans[i]==Integer.MAX_VALUE)ans[i]=-1;
+        }
+        return ans;
+    }
+}
