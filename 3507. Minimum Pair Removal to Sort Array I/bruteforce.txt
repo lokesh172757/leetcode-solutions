@@ -1,0 +1,38 @@
+class Solution {
+    public int minimumPairRemoval(int[] nums) {
+        boolean needSort=true;
+        int ans=0;
+        
+        while(needSort){
+            needSort=false;
+            int i=-1,j=-1,min=Integer.MAX_VALUE;
+            for(int k=1;k<nums.length;k++){
+                int sum=nums[k]+nums[k-1];
+                if(sum<min){
+                    min=sum;
+                    i=k;
+                    j=k-1;
+                }
+                if(nums[k]<nums[k-1]){
+                    needSort=true;
+                }
+            }
+            if(!needSort)break;
+            ans++;
+            int m=0;
+            int next[]=new int[nums.length-1];
+            for(int k=0;k<nums.length;k++){
+                if(k==j){
+                    next[m]=min;
+                    k++;
+                }
+                else{
+                    next[m]=nums[k];
+                }
+                m++;
+            }
+            nums=next;
+        }
+        return ans;
+    }
+}
