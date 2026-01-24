@@ -1,0 +1,36 @@
+class Solution {
+    public static long helper(String s,int i,long dp[]){
+        if(i==s.length())return 1;
+        else if(s.charAt(i)=='0')return 0;
+        else if(dp[i]!=-1)return dp[i];
+        int mod=(int)1e9+7;
+        long ans=helper(s,i+1,dp);
+        
+        if(s.charAt(i)=='*'){
+            ans*=9;
+            if(i<s.length()-1){
+                for(int j=1;j<=2;j++){
+                    if(s.charAt(i+1)=='*'){
+                        for(int k=1;k<=9;k++){
+                            if(j*10+k<=26)ans+=helper(s,i+2,dp);
+                        }
+                    }
+                    else if((j*10+(s.charAt(i+1)-'0'))<=26)ans+=helper(s,i+2,dp);
+                }
+            }
+        }
+        else if(i<s.length()-1&&s.charAt(i+1)=='*'){
+            for(int k=1;k<=9;k++){
+                if(((s.charAt(i)-'0')*10+k)<=26)ans+=helper(s,i+2,dp);
+            }
+        }
+        else if(i<s.length()-1&&((s.charAt(i)-'0')*10+(s.charAt(i+1)-'0'))<=26)ans+=helper(s,i+2,dp);
+        return dp[i]=ans%mod;
+    }
+    public int numDecodings(String s) {
+        long dp[]=new long[s.length()];
+        Arrays.fill(dp,-1);
+        int mod=(int)1e9+7;
+        return (int)(helper(s,0,dp)%mod);
+    }
+}
