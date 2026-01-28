@@ -1,0 +1,19 @@
+class Solution {
+    public static boolean isPossible(int arr[],int src,boolean vis[],int dp[]){
+        if(src<0||src>=arr.length||vis[src])return false;
+        if(arr[src]==0)return true;
+        if(dp[src]!=0)return dp[src]==1;
+        vis[src]=true;
+        boolean ans=isPossible(arr,src+arr[src],vis,dp)||isPossible(arr,src-arr[src],vis,dp);
+        vis[src]=false;
+        if(ans)dp[src]=1;
+        else dp[src]=-1;
+        return ans;
+    }
+    public boolean canReach(int[] arr, int start) {
+        int n=arr.length;
+        boolean vis[]=new boolean[n];
+        int dp[]=new int[n];
+        return isPossible(arr,start,vis,dp);
+    }
+}

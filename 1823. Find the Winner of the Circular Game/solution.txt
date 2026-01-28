@@ -1,0 +1,34 @@
+class Solution {
+    static class Node{
+        int val;
+        Node next=null;
+        public Node(int val){
+            this.val=val;
+        }
+    }
+    public int findTheWinner(int n, int k) {
+        Node h=null,t=null;
+        for(int i=1;i<=n;i++){
+            Node nn=new Node(i);
+            if(h==null){
+                h=t=nn;
+            }
+            else{
+                t.next=nn;
+                t=nn;
+            }
+        }
+        t.next=h;
+        while(h!=h.next){
+            int s=1;
+            while(s<k){
+                t=h;
+                h=h.next;
+                s++;
+            }
+            h=h.next;
+            t.next=h;
+        }
+        return h.val;
+    }
+}
