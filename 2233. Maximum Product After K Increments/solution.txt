@@ -1,0 +1,17 @@
+class Solution {
+    public int maximumProduct(int[] nums, int k) {
+        PriorityQueue<Integer>pq=new PriorityQueue<>();
+        for(int num:nums){
+            pq.add(num);
+        }
+        while(k-->0){
+            pq.add(pq.remove()+1);
+        }
+        long mod=1000000007L;
+        long prod=1;
+        while(!pq.isEmpty()){
+            prod=(prod*pq.remove())%mod;
+        }
+        return (int)prod;
+    }
+}
