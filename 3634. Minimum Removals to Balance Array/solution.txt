@@ -1,0 +1,15 @@
+class Solution {
+    public int minRemoval(int[] nums, int k) {
+        int n=nums.length;
+        Arrays.sort(nums);
+        int i=0,j=0,ans=Integer.MAX_VALUE;
+        while(j<n){
+            long range=(long)nums[i]*k;
+            while(j<n&&nums[j]<=range)j++;
+            int curr=n-j+i;
+            ans=Math.min(ans,curr);
+            i++;
+        }
+        return ans;
+    }
+}

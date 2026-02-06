@@ -1,0 +1,36 @@
+class Solution {
+    public static Node flatter(Node head) {
+        Node temp = head;
+        Node last = head;
+
+        while (temp != null) {
+            Node next = temp.next;
+
+            if (temp.child != null) {
+                Node childLast = flatter(temp.child);
+
+                temp.next = temp.child;
+                temp.child.prev = temp;
+
+                if (next != null) {
+                    childLast.next = next;
+                    next.prev = childLast;
+                }
+
+                temp.child = null;
+                last = childLast;
+            } else {
+                last = temp;
+            }
+
+            temp = next;
+        }
+        return last;
+    }
+
+    public Node flatten(Node head) {
+        if (head == null) return null;
+        flatter(head);
+        return head;
+    }
+}
