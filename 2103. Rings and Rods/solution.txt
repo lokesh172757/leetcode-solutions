@@ -1,0 +1,21 @@
+class Solution {
+    public int countPoints(String rings) {
+        int rods[][]=new int[10][3];
+        for(int i=0;i<rings.length();i++){
+            char color=rings.charAt(i);
+            i++;
+            int rod=rings.charAt(i)-'0';
+            
+            rods[rod][color=='R'?0:color=='G'?1:2]++;
+        }
+        int ans=0;
+        for(int i=0;i<10;i++){
+            int allColors=0;
+            for(int j=0;j<3;j++){
+                if(rods[i][j]!=0)allColors++;
+            }
+            if(allColors==3)ans++;
+        }
+        return ans;
+    }
+}

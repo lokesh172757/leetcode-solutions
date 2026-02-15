@@ -1,0 +1,33 @@
+import java.util.*;
+
+class Cashier {
+
+    int n, i = 0, discount;
+    HashMap<Integer, Integer> map;
+
+    public Cashier(int n, int discount, int[] products, int[] prices) {
+        this.n = n;
+        this.discount = discount;
+        map = new HashMap<>();
+
+        for(int j = 0; j < products.length; j++){
+            map.put(products[j], prices[j]);
+        }
+    }
+    
+    public double getBill(int[] product, int[] amount) {
+        i++;
+
+        double sum = 0;
+
+        for(int j = 0; j < product.length; j++){
+            sum += map.get(product[j]) * amount[j];
+        }
+
+        if(i % n == 0){
+            sum = sum - (sum * discount / 100.0);
+        }
+
+        return sum;
+    }
+}
