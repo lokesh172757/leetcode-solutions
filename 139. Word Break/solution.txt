@@ -1,0 +1,61 @@
+class Solution {
+
+    static class Node{
+        Node child[];
+        boolean eow=false;
+        public Node(){
+            this.child=new Node[26];
+        }
+    }
+
+    public static void makeTrie(String str, Node root){
+        for(int i=0;i<str.length();i++){
+            int idx=str.charAt(i)-'a';
+            if(root.child[idx]==null)
+                root.child[idx]=new Node();
+            root=root.child[idx];
+        }
+        root.eow=true;
+    }
+
+    public static boolean search(String s, Node root){
+        for(int i=0;i<s.length();i++){
+            int idx=s.charAt(i)-'a';
+            if(root.child[idx]==null)
+                return false;
+            root=root.child[idx];
+        }
+        return root.eow;
+    }
+
+    public static boolean isPossible(String s, Node root, Boolean dp[], int start){
+        if(start == s.length())
+            return true;
+        if(dp[start] != null)
+            return dp[start];
+
+        for(int i=start; i<s.length(); i++){
+
+            String prefix = s.substring(start, i+1);
+
+            if(search(prefix, root) &&
+               isPossible(s, root, dp, i+1))
+                return dp[start] = true;
+        }
+
+        return dp[start] = false;
+    }
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+
+        Node root=new Node();
+
+        for(String word : wordDict){
+            makeTrie(word, root);
+        }
+
+        Boolean dp[] = new Boolean[s.length()];
+
+        return isPossible(s, root, dp, 0);
+    }
+}
