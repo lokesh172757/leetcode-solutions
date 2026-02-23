@@ -1,0 +1,14 @@
+class Solution {
+    public boolean hasAllCodes(String s, int k) {
+        HashSet<String>set=new HashSet<>();
+        int n=s.length(),required=(int)Math.pow(2,k);
+        k=Math.min(k,n);
+        int  i=0,j=k;
+        while(j<=n){
+            set.add(s.substring(i,j));
+            i++;j++;
+            if(set.size()==required)return true;
+        }
+        return false;
+    }
+}
