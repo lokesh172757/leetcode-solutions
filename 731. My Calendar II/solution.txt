@@ -1,0 +1,21 @@
+class MyCalendarTwo {
+    TreeMap<Integer,Integer>map;
+    public MyCalendarTwo() {
+        map=new TreeMap<>();
+    }
+    
+    public boolean book(int startTime, int endTime) {
+        map.put(startTime,map.getOrDefault(startTime,0)+1);
+        map.put(endTime,map.getOrDefault(endTime,0)-1);
+        int curr=0;
+        for(Integer num:map.keySet()){
+            curr+=map.get(num);
+            if(curr>2){
+                map.put(endTime,map.getOrDefault(endTime,0)+1);
+                map.put(startTime,map.getOrDefault(startTime,0)-1);
+                return false;
+            }
+        }
+        return true;
+    }
+}
