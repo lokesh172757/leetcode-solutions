@@ -1,0 +1,20 @@
+class Solution {
+    public int minOperations(String s) {
+        int n=s.length();
+        char last=s.charAt(0);
+        int count1=0,count2=0;
+        for(int i=1;i<n;i++){
+            char ch=s.charAt(i);
+            if(last==ch)count1++;
+            last=last=='1'?'0':'1';
+        }
+        last=s.charAt(0)=='1'?'0':'1';
+        count2=1;
+        for(int i=1;i<n;i++){
+            char ch=s.charAt(i);
+            if(last==ch)count2++;
+            last=last=='1'?'0':'1';
+        }
+        return Math.min(count1,count2);
+    }
+}
