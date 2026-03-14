@@ -1,0 +1,32 @@
+class Solution {
+    public int minMutation(String startGene, String endGene, String[] bank) {
+        HashSet<String>bankset=new HashSet<>();
+        for(String str:bank)bankset.add(str);
+        if(!bankset.contains(endGene))return -1;
+        Queue<String>q=new LinkedList<>();
+        q.add(startGene);
+        HashSet<String>visited=new HashSet<>();
+        visited.add(startGene);
+        int level=0;
+        String check="ACGT";
+        while(!q.isEmpty()){
+            int n=q.size();
+            while(n-->0){
+                String str=q.remove();
+                if(str.equals(endGene))return level;
+                for(int i=0;i<4;i++){
+                    char ch=check.charAt(i);
+                    for(int j=0;j<str.length();j++){
+                        String newstr=str.substring(0,j)+ch+str.substring(j+1);
+                        if(bankset.contains(newstr)&&(!visited.contains(newstr))){
+                            q.add(newstr);
+                            visited.add(newstr);
+                        }
+                    }
+                }
+            }
+            level++;
+        }
+        return -1;
+    }
+}
