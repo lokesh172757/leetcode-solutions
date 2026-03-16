@@ -1,0 +1,86 @@
+class Solution {
+    public static void fillPrime(boolean prime[],int n){
+        Arrays.fill(prime, true);
+        prime[0] = false;
+        prime[1] = false;
+        for (int i = 2; i * i < n; i++) {
+            if (prime[i]) {
+                for (int j = i * i; j < n; j += i) {
+                    prime[j] = false;
+                }
+            }
+        }
+    }
+    public static void find(int[][] mat,HashMap<Integer,Integer>map,boolean prime[]){
+        int m=mat.length,n=mat[0].length;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                int num=0;
+                // right
+                for(int k=j;k<n;k++){
+                    num=num*10+mat[i][k];
+                    if(num>10&&prime[num])map.put(num,map.getOrDefault(num,0)+1);
+                }
+                //left
+                num=0;
+                for(int k=j;k>=0;k--){
+                    num=num*10+mat[i][k];
+                    if(num>10&&prime[num])map.put(num,map.getOrDefault(num,0)+1);
+                }
+                //top
+                num=0;
+                for(int k=i;k>=0;k--){
+                    num=num*10+mat[k][j];
+                    if(num>10&&prime[num])map.put(num,map.getOrDefault(num,0)+1);
+                }
+                // bottom
+                num=0;
+                for(int k=i;k<m;k++){
+                    num=num*10+mat[k][j];
+                    if(num>10&&prime[num])map.put(num,map.getOrDefault(num,0)+1);
+                }
+                // top left
+                num=0;
+                for(int k=i,l=j;k>=0&&l>=0;k--,l--){
+                    num=num*10+mat[k][l];
+                    if(num>10&&prime[num])map.put(num,map.getOrDefault(num,0)+1);
+                }
+                // bottom left
+                num=0;
+                for(int k=i,l=j;k<m&&l>=0;k++,l--){
+                    num=num*10+mat[k][l];
+                    if(num>10&&prime[num])map.put(num,map.getOrDefault(num,0)+1);
+                }
+                // top right
+                num=0;
+                for(int k=i,l=j;k>=0&&l<n;k--,l++){
+                    num=num*10+mat[k][l];
+                    if(num>10&&prime[num])map.put(num,map.getOrDefault(num,0)+1);
+                }
+                // bottom right
+                num=0;
+                for(int k=i,l=j;k<m&&l<n;k++,l++){
+                    num=num*10+mat[k][l];
+                    if(num>10&&prime[num])map.put(num,map.getOrDefault(num,0)+1);
+                }
+            }
+        }
+    }
+    public int mostFrequentPrime(int[][] mat) {
+        boolean prime[]=new boolean[1000000];
+        fillPrime(prime,1000000);
+        HashMap<Integer,Integer>map=new HashMap<>();
+        find(mat,map,prime);
+        int freq=0,ans=-1;
+        for(int num:map.keySet()){
+            if(map.get(num)>freq){
+                freq=map.get(num);
+                ans=num;
+            }
+            else if(map.get(num)==freq){
+                ans=Math.max(ans,num);
+            }
+        }
+        return ans;
+    }
+}
