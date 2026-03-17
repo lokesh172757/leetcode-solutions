@@ -1,0 +1,46 @@
+import java.util.*;
+
+class Solution {
+    public int[] getBiggestThree(int[][] grid) {
+        TreeSet<Integer> set = new TreeSet<>();
+        int m = grid.length, n = grid[0].length;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                // single cell rhombus
+                set.add(grid[i][j]);
+                if(set.size() > 3) set.pollFirst();
+                int len = 1;
+                while(true){
+                    if(j - len < 0 || j + len >= n || i + 2 * len >= m) break;
+                    int sum = 0;
+                    // 1st side (top -> left)
+                    for(int k = 0; k < len; k++)
+                        sum += grid[i + k][j - k];
+
+                    // 2nd side (left -> bottom)
+                    for(int k = 0; k < len; k++)
+                        sum += grid[i + len + k][j - len + k];
+
+                    // 3rd side (bottom -> right)
+                    for(int k = 0; k < len; k++)
+                        sum += grid[i + 2 * len - k][j + k];
+
+                    // 4th side (right -> top)
+                    for(int k = 0; k < len; k++)
+                        sum += grid[i + len - k][j + len - k];
+
+                    set.add(sum);
+                    if(set.size() > 3) set.pollFirst();
+                    len++;
+                }
+            }
+        }
+        int size = set.size();
+        int[] ans = new int[size];
+        int i = size - 1;
+        for(int num : set){
+            ans[i--] = num;
+        }
+        return ans;
+    }
+}

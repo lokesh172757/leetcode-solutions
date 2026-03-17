@@ -1,0 +1,24 @@
+class Solution {
+    public static boolean check(char arr[],int j){
+        int i=0;
+        while(i<j){
+            if(arr[i]!=arr[j])return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    public String shortestPalindrome(String s) {
+        int i=s.length()-1;
+        char arr[] = s.toCharArray();
+        while(i>0){
+            if(check(arr,i))break;
+            i--;
+        }
+        StringBuilder sb=new StringBuilder("");
+        for(int j=i+1;j<s.length();j++){
+            sb.append(s.charAt(j));
+        }
+        return sb.reverse().toString()+s;
+    }
+}
