@@ -1,0 +1,49 @@
+class NumArray {
+    static int nums[],st[];
+    public NumArray(int[] nums) {
+        this.nums=nums;
+        this.st=new int[4*nums.length];
+        makeTree(0,nums.length-1,0);
+    }
+    public static void makeTree(int s,int e,int i){
+        if(s==e){
+            st[i]=nums[s];
+            return;
+        }
+        int mid=(s+e)/2;
+        makeTree(s,mid,i*2+1);
+        makeTree(mid+1,e,2*i+2);
+        st[i]=st[2*i+1]+st[2*i+2];
+    }
+    public static void updateTree(int s,int e,int idx,int val,int i){
+        if(s==e){
+            st[i]=val;
+            return;
+        }
+        int mid=(s+e)/2;
+        if(idx<=mid)updateTree(s,mid,idx,val,2*i+1);
+        else updateTree(mid+1,e,idx,val,2*i+2);
+        st[i]=st[2*i+1]+st[2*i+2];
+    }
+    public static int getSum(int si,int sj,int qi,int qj,int i){
+        if(sj<qi||si>qj)return 0;
+        else if(si>=qi&&sj<=qj)return st[i];
+        int mid=(si+sj)/2;
+        return getSum(si,mid,qi,qj,2*i+1)+getSum(mid+1,sj,qi,qj,2*i+2);
+    }
+    
+    public void update(int index, int val) {
+        updateTree(0,nums.length-1,index,val,0);
+    }
+    
+    public int sumRange(int left, int right) {
+        return getSum(0,nums.length-1,left,right,0);
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(index,val);
+ * int param_2 = obj.sumRange(left,right);
+ */
