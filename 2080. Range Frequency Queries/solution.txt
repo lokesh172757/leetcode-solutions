@@ -1,0 +1,41 @@
+class RangeFreqQuery {
+    static HashMap<Integer,Integer>segment[];
+    static int n;
+    public RangeFreqQuery(int[] arr) {
+        this.n=arr.length;
+        this.segment=new HashMap[4*n];
+        for(int i=0;i<4*n;i++){
+            segment[i]=new HashMap<>();
+        }
+        build(arr,0,n-1,0);
+    }
+    public static void build(int arr[],int si,int sj,int i){
+        if(si==sj){
+            segment[i].put(arr[si],1);
+            return;
+        }
+        int mid=(si+sj)/2;
+        build(arr,si,mid,2*i+1);
+        build(arr,mid+1,sj,2*i+2);
+        for(Integer num:segment[2*i+1].keySet()){
+            segment[i].put(num,segment[i].getOrDefault(num,0)+segment[2*i+1].get(num));
+        }
+        for(Integer num:segment[2*i+2].keySet()){
+            segment[i].put(num,segment[i].getOrDefault(num,0)+segment[2*i+2].get(num));
+        }
+    }
+    public static int find(int si,int sj,int qi,int qj,int val,int i){
+        if(sj<qi||si>qj)return 0;
+        if(si>=qi&&sj<=qj){
+            if(segment[i].containsKey(val)){
+                return segment[i].get(val);
+            }
+            return 0;
+        }
+        int mid=(si+sj)/2;
+        return find(si,mid,qi,qj,val,2*i+1)+find(mid+1,sj,qi,qj,val,2*i+2);
+    }
+    public int query(int left, int right, int val) {
+        return find(0,n-1,left,right,val,0);
+    }
+}
