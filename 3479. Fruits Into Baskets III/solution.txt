@@ -1,0 +1,42 @@
+class Solution {
+    public static void build(int baskets[],int seg[],int i,int l,int r){
+        if(l==r){
+            seg[i]=baskets[l];
+            return;
+        }
+        int mid=(l+r)/2;
+        build(baskets,seg,2*i+1,l,mid);
+        build(baskets,seg,2*i+2,mid+1,r);
+        seg[i]=Math.max(seg[2*i+1],seg[2*i+2]);
+    }
+    public static boolean possible(int val,int seg[],int i, int l,int r){
+        if(seg[i]<val)return false;
+        if(l==r){
+            if(seg[i]>=val){
+                seg[i]=0;
+                return true;
+            }
+            return false;
+        }
+        int mid=(l+r)/2;
+        boolean ans=possible(val,seg,2*i+1,l,mid);
+        if(!ans){
+            ans=possible(val,seg,2*i+2,mid+1,r);
+        }
+        if(ans){
+            seg[i]=Math.max(seg[2*i+1],seg[2*i+2]);
+            return true;
+        }
+        return false;
+    }
+    public int numOfUnplacedFruits(int[] fruits, int[] baskets) {
+        int n=fruits.length;
+        int seg[]=new int[4*n];
+        build(baskets,seg,0,0,n-1);
+        int ans=0;
+        for(int i=0;i<n;i++){
+            if(!possible(fruits[i],seg,0,0,n-1))ans++;
+        }
+        return ans;
+    }
+}
