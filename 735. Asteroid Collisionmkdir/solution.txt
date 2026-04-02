@@ -1,0 +1,33 @@
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        int n=asteroids.length;
+        ArrayDeque<Integer>st=new ArrayDeque<>();
+        for(int i=0;i<n;i++){
+            int curr=asteroids[i];
+            if(curr>0)st.push(asteroids[i]);
+            else{
+                while(!st.isEmpty()&&st.peek()>0){
+                    int last=st.peek();
+                    if(last>curr*-1){
+                        curr=0;
+                        break;
+                    }
+                    else if(curr*-1>last){
+                        st.pop();
+                    }
+                    else{
+                        st.pop();
+                        curr=0;
+                        break;
+                    }
+                }
+                if(curr<0)st.push(curr);
+            }
+        }
+        int arr[]=new int[st.size()];
+        for(int i=arr.length-1;i>=0;i--){
+            arr[i]=st.pop();
+        }
+        return arr;
+    }
+}
