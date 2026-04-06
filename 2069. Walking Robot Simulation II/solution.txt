@@ -1,0 +1,59 @@
+class Robot {
+    static int row, col, x, y, i;
+    static String direction[] = {"East", "North", "West", "South"};
+
+    public Robot(int width, int height) {
+        col = width;
+        row = height;
+        x = 0;
+        y = 0;
+        i = 0;
+    }
+
+    public void step(int num) {
+        int perimeter = 2 * (col + row - 2);
+        if (perimeter == 0) return;
+        num %= perimeter;
+        if (num == 0 && x == 0 && y == 0) {
+            i = 3; // South
+            return;
+        }
+
+        while (num > 0) {
+            int valid = 0;
+
+            if (i == 0) { // East
+                valid = Math.min(num, col - x - 1);
+                x += valid;
+            } else if (i == 1) { // North
+                valid = Math.min(num, row - y - 1);
+                y += valid;
+            } else if (i == 2) { // West
+                valid = Math.min(num, x);
+                x -= valid;
+            } else { // South
+                valid = Math.min(num, y);
+                y -= valid;
+            }
+
+            if (valid == 0) {
+                i = (i + 1) % 4;
+                continue;
+            }
+
+            num -= valid;
+
+            if (num > 0) {
+                i = (i + 1) % 4;
+            }
+        }
+    }
+
+    public int[] getPos() {
+        return new int[]{x, y};
+    }
+
+    public String getDir() {
+        return direction[i];
+    }
+}
