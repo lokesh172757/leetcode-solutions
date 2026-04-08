@@ -1,0 +1,15 @@
+class Solution {
+    public int getSum(int a, int b) {
+        int i=0,ans=0,c=0;
+        while(i<32){
+            int b1=a&1,b2=b&1;
+            int x=b1^b2^c;
+            c=(b1&b2)|(b1&c)|(b2&c);
+            ans|=(x<<i);
+            a>>=1;
+            b>>=1;
+            i++;
+        }
+        return ans;
+    }
+}

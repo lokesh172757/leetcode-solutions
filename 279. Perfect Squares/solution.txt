@@ -1,0 +1,39 @@
+class Solution {
+    public static int helper(int arr[], int i, int sum, int dp[][]) {
+        if (sum == 0) return 0;
+        if (i >= arr.length) return Integer.MAX_VALUE;
+
+        if (dp[sum][i] != -1) return dp[sum][i];
+
+        int ans = helper(arr, i + 1, sum, dp);
+
+        if (arr[i] <= sum) {
+            int take = helper(arr, i, sum - arr[i], dp);
+            if (take != Integer.MAX_VALUE)
+                ans = Math.min(ans, 1 + take);
+        }
+
+        return dp[sum][i] = ans;
+    }
+
+    public int numSquares(int n) {
+        ArrayList<Integer> perfect = new ArrayList<>();
+        int i = 1;
+        while (i * i <= n) {
+            perfect.add(i * i);
+            i++;
+        }
+
+        Collections.sort(perfect, Collections.reverseOrder());
+
+        int arr[] = new int[perfect.size()];
+        for (int j = 0; j < arr.length; j++) {
+            arr[j] = perfect.get(j);
+        }
+
+        int dp[][] = new int[n + 1][arr.length];
+        for (int[] row : dp) Arrays.fill(row, -1);
+
+        return helper(arr, 0, n, dp);
+    }
+}
