@@ -1,0 +1,22 @@
+class Solution {
+    public int minimumDistance(int[] nums) {
+        int n=nums.length;
+        int min=Integer.MAX_VALUE;
+        for(int i=0;i<n-2;i++){
+            int b=-1,c=-1;
+            for(int j=i+1;j<n;j++){
+                if(nums[i]==nums[j]){
+                    if(b==-1)b=j;
+                    else{
+                        c=j;
+                        break;
+                    }
+                }
+            }
+            if(b==-1||c==-1)continue;
+            min=Math.min(2*(c-i),min);
+        }
+        if(min==Integer.MAX_VALUE)return -1;
+        return min;
+    }
+}
