@@ -1,0 +1,27 @@
+class Solution {
+    public int minimumDistance(int[] nums) {
+        int n=nums.length,max=0;
+        for(int i=0;i<n;i++){
+            if(max<nums[i])max=nums[i];
+        }
+        ArrayList<Integer>arr[]=new ArrayList[max+1];
+        for(int i=0;i<n;i++){
+            if(arr[nums[i]]==null)arr[nums[i]]=new ArrayList<>();
+            arr[nums[i]].add(i);
+        }
+        int ans=Integer.MAX_VALUE;
+        for(int i=0;i<=max;i++){
+            if(arr[i]!=null&&arr[i].size()>2){
+                int a=arr[i].get(0),b=arr[i].get(1);
+                for(int j=2;j<arr[i].size();j++){
+                    int c=arr[i].get(j);
+                    ans=Math.min(ans,2*(c-a));
+                    a=b;
+                    b=c;
+                }
+            }
+        }
+        if(ans==Integer.MAX_VALUE)return -1;
+        return ans;
+    }
+}
