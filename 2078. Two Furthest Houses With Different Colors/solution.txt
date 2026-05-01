@@ -9,4 +9,4 @@ class Solution {
         }
         return ans;
     }
-}
+}mkdir "396. Rotate Function"

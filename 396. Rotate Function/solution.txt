@@ -1,0 +1,25 @@
+class Solution {
+    public int maxRotateFunction(int[] nums) {
+        int n=nums.length;
+        int arr[]=new int[2*n];
+        for(int i=0;i<2*n;i++){
+            arr[i]=nums[i%n];
+        }
+        int i=n,j=2*n-1,f=0,sum=0;
+        for(int k=1;k<n;k++){
+            f+=nums[k]*k;
+            sum+=nums[k];
+        }
+        int max=f;
+        while(i>0){
+            f=f-arr[j]*(n-1);
+            sum-=arr[j];
+            sum+=arr[i];
+            f+=sum;
+            max=Math.max(max,f);
+            i--;
+            j--;
+        }
+        return max;
+    }
+}
