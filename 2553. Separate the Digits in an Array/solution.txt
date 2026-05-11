@@ -1,0 +1,35 @@
+class Solution {
+    static class Node{
+        Node next;
+        int val;
+        public Node(int val){
+            this.val=val;
+        }
+    }
+    static Node head;
+    static int len;
+    public int[] separateDigits(int[] nums) {
+        head=null;
+        len=0;
+        for(int i=nums.length-1;i>=0;i--){
+            int n=nums[i];
+            while(n>0){
+                int dig=n%10;
+                n/=10;
+                Node nn=new Node(dig);
+                nn.next=head;
+                head=nn;
+                len++;
+            }
+        }
+        int ans[]=new int[len];
+        int i=0;
+        Node temp=head;
+        while(temp!=null){
+            ans[i]=temp.val;
+            i++;
+            temp=temp.next;
+        }
+        return ans;
+    }
+}
