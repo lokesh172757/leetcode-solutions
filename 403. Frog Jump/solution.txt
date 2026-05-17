@@ -1,0 +1,40 @@
+class Solution {
+
+    public static boolean canJump(int[] stones, int i, int k, int[][] dp) {
+        if (i == stones.length - 1) {
+            return true;
+        }
+        if (dp[i][k] != 0) {
+            return dp[i][k] == 1;
+        }
+
+        int minJump = k - 1;
+        int maxJump = k + 1;
+        boolean ans = false;
+
+        for (int j = i + 1; j < stones.length; j++) {
+            int jump = stones[j] - stones[i];
+
+            if (jump > maxJump) {
+                break;
+            }
+            if (jump < minJump) {
+                continue;
+            }
+            if (jump > 0 && canJump(stones, j, jump, dp)) {
+                ans = true;
+            }
+        }
+        dp[i][k] = ans ? 1 : -1;
+        return ans;
+    }
+
+    public boolean canCross(int[] stones) {
+        int n = stones.length;
+        if (stones[1] != 1) {
+            return false;
+        }
+        int[][] dp = new int[n][n + 1];
+        return canJump(stones, 1, 1, dp);
+    }
+}
