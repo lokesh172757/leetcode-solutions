@@ -1,0 +1,57 @@
+class Solution {
+
+    public static void makeTrie(Node root, String s) {
+
+        for (int i = 0; i < s.length(); i++) {
+
+            int dig = s.charAt(i) - '0';
+
+            if (root.child[dig] == null) {
+                root.child[dig] = new Node();
+            }
+
+            root = root.child[dig];
+        }
+    }
+
+    static class Node {
+        Node child[] = new Node[10];
+    }
+
+    public static int findLength(Node root, String s) {
+
+        int ans = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+
+            int dig = s.charAt(i) - '0';
+
+            if (root.child[dig] != null) {
+                ans++;
+            } else {
+                break;
+            }
+
+            root = root.child[dig];
+        }
+
+        return ans;
+    }
+
+    public int longestCommonPrefix(int[] arr1, int[] arr2) {
+
+        Node root = new Node();
+
+        for (int n : arr1) {
+            makeTrie(root, String.valueOf(n));
+        }
+
+        int max = 0;
+
+        for (int n : arr2) {
+            max = Math.max(max, findLength(root, String.valueOf(n)));
+        }
+
+        return max;
+    }
+}
