@@ -1,0 +1,20 @@
+class Solution {
+    public int maxNumberOfBalloons(String text) {
+        int arr[]=new int[26];
+        for(int i=0;i<text.length();i++){
+            char ch=text.charAt(i);
+            int idx=(int)(ch-'a');
+            arr[idx]++;
+        }
+        if(arr[0]!=0&&arr[1]!=0&&arr[11]!=0&&arr[13]!=0&&arr[14]!=0){
+            int ans=Integer.MAX_VALUE;
+            ans=Math.min(ans,arr[0]);
+            ans=Math.min(ans,arr[1]);
+            ans=Math.min(ans,arr[11]/2);
+            ans=Math.min(ans,arr[13]);
+            ans=Math.min(ans,arr[14]/2);
+            return ans;
+        }
+        return 0;
+    }
+}
