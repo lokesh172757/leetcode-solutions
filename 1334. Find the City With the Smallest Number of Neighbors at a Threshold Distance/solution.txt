@@ -1,0 +1,43 @@
+class Solution {
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        int arr[][]=new int[n][n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(i==j)arr[i][j]=0;
+                else arr[i][j]=Integer.MAX_VALUE;
+            }
+        }
+        for(int i=0;i<edges.length;i++){
+            int from=edges[i][0],to=edges[i][1],w=edges[i][2];
+            arr[from][to]=w;
+            arr[to][from]=w;
+        }
+        for(int via=0;via<n;via++){
+            for(int from=0;from<n;from++){
+                for(int to=0;to<n;to++){
+                    if(arr[from][via]!=Integer.MAX_VALUE&&arr[via][to]!=Integer.MAX_VALUE){
+                        int d=arr[from][via]+arr[via][to];
+                        if(arr[from][to]>d){
+                            arr[from][to]=d;
+                        }
+                    }
+                }
+            }
+        }
+        int city=-1,neigh=Integer.MAX_VALUE;
+        for(int i=0;i<n;i++){
+            int count=0;
+            for(int j=0;j<n;j++){
+                if(i!=j){
+                    if(arr[i][j]<=distanceThreshold)count++;
+                }
+            }
+            if(count<neigh){
+                neigh=count;
+                city=i;
+            }
+            else if(count==neigh&&i>city)city=i;
+        }
+        return city;
+    }
+}
