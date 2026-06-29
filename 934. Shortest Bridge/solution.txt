@@ -1,0 +1,81 @@
+class Solution {
+    static int[] dx = {0, 0, 1, -1};
+    static int[] dy = {1, -1, 0, 0};
+
+    class Pair {
+        int i, j;
+        Pair(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+    }
+
+    Queue<Pair> q = new LinkedList<>();
+
+    // DFS to mark the first island and add all its cells to the queue
+    public void dfs(int[][] grid, int i, int j) {
+        int n = grid.length;
+
+        if (i < 0 || i >= n || j < 0 || j >= n || grid[i][j] != 1)
+            return;
+
+        grid[i][j] = 2;
+        q.offer(new Pair(i, j));
+
+        for (int k = 0; k < 4; k++) {
+            dfs(grid, i + dx[k], j + dy[k]);
+        }
+    }
+
+    public int shortestBridge(int[][] grid) {
+        int n = grid.length;
+        boolean found = false;
+
+        // Find and mark the first island
+        for (int i = 0; i < n && !found; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    dfs(grid, i, j);
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        boolean[][] vis = new boolean[n][n];
+
+        // Mark all first-island cells as visited
+        for (Pair p : q) {
+            vis[p.i][p.j] = true;
+        }
+
+        int dist = 0;
+
+        // Multi-source BFS
+        while (!q.isEmpty()) {
+            int size = q.size();
+
+            while (size-- > 0) {
+                Pair cur = q.poll();
+
+                for (int k = 0; k < 4; k++) {
+                    int ni = cur.i + dx[k];
+                    int nj = cur.j + dy[k];
+
+                    if (ni < 0 || ni >= n || nj < 0 || nj >= n || vis[ni][nj])
+                        continue;
+
+                    if (grid[ni][nj] == 1)
+                        return dist;
+
+                    vis[ni][nj] = true;
+                    q.offer(new Pair(ni, nj));
+                }
+            }
+
+            dist++;
+        }
+
+        return -1;
+    }
+}
