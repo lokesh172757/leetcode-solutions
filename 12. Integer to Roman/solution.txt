@@ -1,0 +1,17 @@
+class Solution {
+    static int sum[]={1000,900,500,400,100,90,50,40,10,9,5,4,1};
+    static String symbol[]={"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+    public String intToRoman(int num) {
+        int i=0;
+        StringBuilder sb=new StringBuilder("");
+        while(num>0){
+            if(sum[i]<=num){
+                int count=num/sum[i];
+                num-=sum[i]*count;
+                for(int j=0;j<count;j++)sb.append(symbol[i]);
+            }
+            i++;
+        }
+        return sb.toString();
+    }
+}

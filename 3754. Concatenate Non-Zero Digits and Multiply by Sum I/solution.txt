@@ -1,0 +1,22 @@
+class Solution {
+    public long sumAndMultiply(int n) {
+        long sum=0;
+        int num=0,ten=1,pow=0;
+        while(n>0){
+            int dig=n%10;
+            sum+=dig;
+            if(dig!=0){
+                if(pow==0){
+                    num+=dig;
+                    pow=1;
+                }
+                else{
+                    num=dig*ten+num;
+                }
+                ten*=10;
+            }
+            n/=10;
+        }
+        return sum*num;
+    }
+}
