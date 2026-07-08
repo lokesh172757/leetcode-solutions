@@ -1,0 +1,33 @@
+class Solution {
+    static int dx[]={1,-1,0,0},dy[]={0,0,1,-1};
+    public int maxDistance(int[][] grid) {
+        int m=grid[0].length,n=grid[0].length,ans=0,landCount=0;
+        Queue<int[]>q=new LinkedList<>();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1){
+                    q.add(new int[]{i,j});
+                    landCount++;
+                }
+            }
+        }
+        if(landCount==0||landCount==m*n)return -1;
+        boolean vis[][]=new boolean[m][n];
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                int curr[]=q.remove();
+                int r=curr[0],c=curr[1];
+                if(!vis[r][c]){
+                    vis[r][c]=true;
+                    for(int k=0;k<4;k++){
+                        int ni=r+dx[k],nj=c+dy[k];
+                        if(ni>=0&&ni<m&&nj>=0&&nj<n)q.add(new int[]{ni,nj});
+                    }
+                }
+            }
+            ans++;
+        }
+        return ans-2;
+    }
+}
