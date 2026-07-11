@@ -1,0 +1,40 @@
+class Solution {
+    static int par[],rank[];
+    public static int find(int x) {
+        if (par[x] != x)
+            par[x] = find(par[x]);
+        return par[x];
+    }
+    public static void union(int a, int b) {
+        int pa = find(a);
+        int pb = find(b);
+        if (rank[pa] < rank[pb]) {
+            par[pa] = pb;
+        } else if (rank[pa] > rank[pb]) {
+            par[pb] = pa;
+        } else {
+            par[pb] = pa;
+            rank[pa]++;
+        }
+    }
+    public boolean[] pathExistenceQueries(int n, int[] nums, int maxDiff, int[][] queries) {
+        par=new int[n];
+        rank=new int[n];
+        int q=queries.length;
+        for(int i=0;i<n;i++){
+            par[i]=i;
+        }
+        // union
+        int min=nums[0],max=nums[n-1];
+        for(int i=1;i<n;i++){
+            if(nums[i]-nums[i-1]<=maxDiff)union(i,i-1);
+        }
+        boolean ans[]=new boolean[q];
+        // find
+        for(int i=0;i<q;i++){
+            int a=queries[i][0],b=queries[i][1];
+            if(find(a)==find(b))ans[i]=true;
+        }
+        return ans;
+    }
+}
