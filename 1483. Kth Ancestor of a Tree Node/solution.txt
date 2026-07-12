@@ -1,0 +1,33 @@
+class TreeAncestor {
+    static int ancestor[][];
+    static int rows,cols;
+    public TreeAncestor(int n, int[] parent) {
+        rows=n;
+        cols=(int)(Math.log(n)/Math.log(2))+1;
+        ancestor=new int[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            Arrays.fill(ancestor[i], -1);
+        }
+        for(int i=0;i<rows;i++){
+            ancestor[i][0]=parent[i];
+        }
+
+        for(int j=1;j<cols;j++){
+            for(int i=0;i<rows;i++){
+                if(ancestor[i][j-1]!=-1){
+                    ancestor[i][j]=ancestor[ancestor[i][j-1]][j-1];
+                }
+            }
+        }
+    }
+    
+    public int getKthAncestor(int node, int k) {
+        for(int j=0;j<cols;j++){
+            if((k&(1<<j))!=0){
+                node=ancestor[node][j];
+                if(node==-1)return node;
+            }
+        }
+        return node;
+    }
+}
