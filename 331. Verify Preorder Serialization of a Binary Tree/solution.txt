@@ -1,0 +1,13 @@
+class Solution {
+    static int i;
+    public static boolean preOrder(String[] s) {
+        if (i == s.length) return false;
+        if (s[i++].equals("#")) return true;
+        return preOrder(s) && preOrder(s);
+    }
+    public boolean isValidSerialization(String preorder) {
+        String[] arr = preorder.split(",");
+        i = 0;
+        return preOrder(arr) && i == arr.length;
+    }
+}
