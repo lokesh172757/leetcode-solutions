@@ -1,0 +1,32 @@
+class Solution {
+    public int maximumProduct(int[] nums) {
+        if(nums.length==3)return nums[0]*nums[1]*nums[2];
+        int maxA=Integer.MIN_VALUE,maxB=Integer.MIN_VALUE,maxC=Integer.MIN_VALUE;
+        int minA=Integer.MAX_VALUE,minB=Integer.MAX_VALUE,minC=Integer.MAX_VALUE;
+        for(int i=0;i<nums.length;i++){
+            // max
+            if(nums[i]>maxA){
+                maxC=maxB;
+                maxB=maxA;
+                maxA=nums[i];
+            }
+            else if(nums[i]>maxB){
+                maxC=maxB;
+                maxB=nums[i];
+            }
+            else if(nums[i]>maxC)maxC=nums[i];
+            //min
+            if(nums[i]<minA){
+                minC=minB;
+                minB=minA;
+                minA=nums[i];
+            }
+            else if(nums[i]<minB){
+                minC=minB;
+                minB=nums[i];
+            }
+            else if(nums[i]<minC)minC=nums[i];
+        }
+        return Math.max(minA*minB*maxA,maxA*maxB*maxC);
+    }
+}
