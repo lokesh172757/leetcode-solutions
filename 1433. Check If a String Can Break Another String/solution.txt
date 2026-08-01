@@ -1,0 +1,33 @@
+class Solution {
+    public boolean checkIfCanBreak(String s1, String s2) {
+        int[] cnt1 = new int[26];
+        int[] cnt2 = new int[26];
+
+        for (char c : s1.toCharArray()) cnt1[c - 'a']++;
+        for (char c : s2.toCharArray()) cnt2[c - 'a']++;
+
+        int diff = 0;
+        boolean s1Break = true;
+
+        for (int i = 0; i < 26; i++) {
+            diff += cnt1[i] - cnt2[i];
+            if (diff < 0) {
+                s1Break = false;
+                break;
+            }
+        }
+
+        diff = 0;
+        boolean s2Break = true;
+
+        for (int i = 0; i < 26; i++) {
+            diff += cnt2[i] - cnt1[i];
+            if (diff < 0) {
+                s2Break = false;
+                break;
+            }
+        }
+
+        return s1Break || s2Break;
+    }
+}

@@ -1,0 +1,19 @@
+class Solution {
+    public int minimumPushes(String word) {
+        int arr[]=new int[26];
+        for(int i=0;i<word.length();i++){
+            char c=word.charAt(i);
+            arr[(int)(c-'a')]++;
+        }
+        Arrays.sort(arr);
+        int ans=0,push=1,count=0;
+        for(int i=25;i>=0;i--){
+            if(arr[i]!=0){
+                count++;
+                ans+=arr[i]*push;
+            }
+            if(count%8==0)push++;
+        }
+        return ans;
+    }
+}

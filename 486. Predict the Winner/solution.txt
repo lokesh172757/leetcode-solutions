@@ -1,0 +1,16 @@
+class Solution {
+    public static boolean check(int i,int j,int p,int s1,int s2,int nums[]){
+        if(i>j)return s1>=s2;
+        if (p == 1) {
+            return check(i+1, j, 2, s1+nums[i], s2, nums)
+            || check(i, j-1, 2, s1+nums[j], s2, nums);
+        }
+        return check(i+1, j, 1, s1, s2+nums[i], nums)
+        && check(i, j-1, 1, s1, s2+nums[j], nums);
+    }
+    public boolean predictTheWinner(int[] nums) {
+        int n=nums.length;
+        if(n==1||n==2)return true;
+        return check(0,n-1,1,0,0,nums);
+    }
+}
