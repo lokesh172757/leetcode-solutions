@@ -1,0 +1,19 @@
+class Solution {
+    static int mod=(int)1e9+7;
+    public int maxArea(int h, int w, int[] horizontalCuts, int[] verticalCuts) {
+        Arrays.sort(horizontalCuts);
+        Arrays.sort(verticalCuts);
+        int horMax=0,horLast=0,verMax=0,verLast=0;
+        for(int i=0;i<horizontalCuts.length;i++){
+            horMax=Math.max(horMax,horizontalCuts[i]-horLast);
+            horLast=horizontalCuts[i];
+        }
+        horMax=Math.max(horMax,h-horLast);
+        for(int i=0;i<verticalCuts.length;i++){
+            verMax=Math.max(verMax,verticalCuts[i]-verLast);
+            verLast=verticalCuts[i];
+        }
+        verMax=Math.max(verMax,w-verLast);
+        return (int)(((long)verMax*horMax)%mod);
+    }
+}
