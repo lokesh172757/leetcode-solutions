@@ -1,0 +1,20 @@
+class Solution {
+    public static int helper(String s,int i,int j,int k){
+        if (i>j) return 0;
+        int total[] = new int[26];
+        for (int a = i; a <=j; a++) {
+            total[s.charAt(a) - 'a']++;
+        }
+        for (int a = i; a <=j; a++) {
+            if (total[s.charAt(a) - 'a'] < k) {
+                int left = helper(s,i,a-1,k);
+                int right = helper(s,a+1,j, k);
+                return Math.max(left, right);
+            }
+        }
+        return j-i+1;
+    }
+    public int longestSubstring(String s, int k) {
+        return helper(s,0,s.length()-1,k);
+    }
+}
