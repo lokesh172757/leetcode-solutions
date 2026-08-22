@@ -1,0 +1,11 @@
+class Solution {
+    public boolean checkDivisibility(int n) {
+        int m=n,s1=0,s2=1;
+        while(m>0){
+            s1+=m%10;
+            s2*=m%10;
+            m/=10;
+        }
+        return n%(s1+s2)==0;
+    }
+}
