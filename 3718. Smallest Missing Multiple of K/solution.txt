@@ -1,0 +1,17 @@
+class Solution {
+    public int missingMultiple(int[] nums, int k) {
+        int max=0,div=k;
+        for(int num:nums){
+            max=Math.max(num,max);
+        }
+        int arr[]=new int[max+1];
+        for(int num:nums){
+            arr[num]=1;
+        }
+        while(div<=max){
+            if(arr[div]==0)return div;
+            div+=k;
+        }
+        return div;
+    }
+}
