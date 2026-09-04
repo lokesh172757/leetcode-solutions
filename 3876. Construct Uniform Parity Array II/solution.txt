@@ -1,0 +1,11 @@
+class Solution {
+    public boolean uniformArray(int[] nums1) {
+        int evenMin=Integer.MAX_VALUE,oddMin=Integer.MAX_VALUE;
+        for(int num:nums1){
+            if(num%2==0)evenMin=Math.min(num,evenMin);
+            else oddMin=Math.min(num,oddMin);
+        }
+        if(evenMin==Integer.MAX_VALUE||oddMin==Integer.MAX_VALUE||evenMin>oddMin)return true;
+        return false;
+    }
+}
