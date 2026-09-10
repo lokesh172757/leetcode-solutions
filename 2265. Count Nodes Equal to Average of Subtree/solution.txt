@@ -1,0 +1,24 @@
+class Solution {
+    static class Pair{
+        int nodes,sum,ans;
+        public Pair(int nodes,int sum,int ans){
+            this.nodes=nodes;
+            this.sum=sum;
+            this.ans=ans;
+        }
+    }
+    public static Pair find(TreeNode root){
+        if(root==null)return new Pair(0,0,0);
+        Pair left=find(root.left);
+        Pair right=find(root.right);
+        int sum=left.sum+right.sum+root.val,nodes=left.nodes+right.nodes+1;
+        if(sum/nodes==root.val)right.ans++;
+        right.nodes=nodes;
+        right.sum=sum;
+        right.ans+=left.ans;
+        return right;
+    }
+    public int averageOfSubtree(TreeNode root) {
+        return find(root).ans;
+    }
+}

@@ -1,0 +1,31 @@
+class Solution {
+    public static int prune(TreeNode root,int limit,int sum){
+        sum+=root.val;
+
+        if(root.left==null && root.right==null)
+            return sum;
+
+        int left=Integer.MIN_VALUE;
+        int right=Integer.MIN_VALUE;
+
+        if(root.left!=null)
+            left=prune(root.left,limit,sum);
+
+        if(root.right!=null)
+            right=prune(root.right,limit,sum);
+
+        if(left<limit)
+            root.left=null;
+
+        if(right<limit)
+            root.right=null;
+
+        return Math.max(left,right);
+    }
+
+    public TreeNode sufficientSubset(TreeNode root, int limit) {
+        if(prune(root,limit,0)<limit)
+            return null;
+        return root;
+    }
+}
