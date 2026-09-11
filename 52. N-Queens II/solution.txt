@@ -1,0 +1,41 @@
+class Solution {
+    public static boolean check(int i, int j, int board[][], int n) {
+        // row
+        for(int k=0; k<n; k++){
+            if(board[i][k] == 1)
+                return false;
+        }
+        // col
+        for(int k=0; k<n; k++){
+            if(board[k][j] == 1)
+                return false;
+        }
+        // upper left diagonal
+        for(int m=i, o=j; m>=0 && o>=0; m--, o--){
+            if(board[m][o] == 1)
+                return false;
+        }
+        // upper right diagonal
+        for(int m=i, o=j; m>=0 && o<n; m--, o++){
+            if(board[m][o] == 1)
+                return false;
+        }
+        return true;
+    }
+    public static int fill(int i,int n,int board[][]){
+        if(i==n)return 1;
+        int ans=0;
+        for(int j=0;j<n;j++){
+            if(check(i,j,board,n)){
+                board[i][j]=1;
+                ans+=fill(i+1,n,board);
+                board[i][j]=0;
+            }
+        }
+        return ans;
+    }
+    public int totalNQueens(int n) {
+        int board[][]=new int[n][n];
+        return fill(0,n,board);
+    }
+}

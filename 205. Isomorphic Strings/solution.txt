@@ -1,0 +1,14 @@
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        HashMap<Character,Character>st=new HashMap<>(),ts=new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            char cs=s.charAt(i),ct=t.charAt(i);
+            if((st.containsKey(cs)&&st.get(cs)!=ct)||(ts.containsKey(ct)&&ts.get(ct)!=cs))return false;
+            else{
+                st.put(cs,ct);
+                ts.put(ct,cs);
+            }
+        }
+        return true;
+    }
+}

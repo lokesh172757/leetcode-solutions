@@ -1,0 +1,19 @@
+class Solution {
+    public static int find(char srr[],int i,int j){
+        while(i>=0&&j<srr.length){
+            if(srr[i]!=srr[j])break;
+            j++;
+            i--;
+        }
+        return j-i-1;
+    }
+    public int countSubstrings(String s) {
+        int ans=0;
+        char srr[]=s.toCharArray();
+        for(int i=0;i<srr.length;i++){
+            ans+=find(srr,i,i)/2+1;
+            if(i<srr.length-1)ans+=find(srr,i,i+1)/2;
+        }
+        return ans;
+    }
+}

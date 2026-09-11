@@ -1,0 +1,13 @@
+class Solution {
+    public static boolean prune(TreeNode root){
+        if(root==null)return false;
+        boolean left=prune(root.left),right=prune(root.right);
+        if(!left)root.left=null;
+        if(!right)root.right=null;
+        return left||right||root.val==1;
+    }
+    public TreeNode pruneTree(TreeNode root) {
+        if(prune(root))return root;
+        return null;
+    }
+}
