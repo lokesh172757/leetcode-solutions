@@ -1,0 +1,41 @@
+class Solution {
+    static class Pair implements Comparable<Pair>{
+        int val,listIdx,idx;
+        public Pair(int val,int listIdx,int idx){
+            this.val=val;
+            this.listIdx=listIdx;
+            this.idx=idx;
+        }
+        @Override
+        public int compareTo(Pair p2){
+            return this.val-p2.val;
+        }
+    }
+    public int[] smallestRange(List<List<Integer>> nums) {
+        int k=nums.size(),max=-1000000;
+        PriorityQueue<Pair>pq=new PriorityQueue<>();
+        int ans[]={-1000000,1000000};
+        for(int i=0;i<k;i++){
+            int val=nums.get(i).get(0);
+            pq.add(new Pair(val,i,0));
+            max=Math.max(max,val);
+        }
+        int len=ans[1]-ans[0];
+        while(!pq.isEmpty()){
+            Pair p=pq.remove();
+            if(max-p.val<len){
+                len=max-p.val;
+                ans[0]=p.val;
+                ans[1]=max;
+            }
+            if(p.idx+1<nums.get(p.listIdx).size()){
+                p.idx++;
+                p.val=nums.get(p.listIdx).get(p.idx);
+                max=Math.max(max,p.val);
+                pq.add(p);
+            }
+            else break;
+        }
+        return ans;
+    }
+}

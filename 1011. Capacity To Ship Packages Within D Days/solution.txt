@@ -1,0 +1,34 @@
+class Solution {
+    public static boolean check(int arr[],int mid,int days){
+        int sum=0;
+        for(int i=0;i<arr.length;i++){
+            if(sum+arr[i]<=mid){
+                sum+=arr[i];
+            }
+            else{
+                sum=arr[i];
+                if(sum>mid)return false;
+                days--;
+            }
+            if(days==0)return false;
+        }
+        return true;
+    }
+    public int shipWithinDays(int[] weights, int days) {
+        int min=0,max=0;
+        for(int num:weights){
+            max+=num;
+        }
+        if(days==1)return max;
+        int ans=max;
+        while(min<=max){
+            int mid=(min+max)/2;
+            if(check(weights,mid,days)){
+                ans=mid;
+                max=mid-1;
+            }
+            else min=mid+1;
+        }
+        return ans;
+    }
+}
