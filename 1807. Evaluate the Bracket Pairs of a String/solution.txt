@@ -1,0 +1,26 @@
+class Solution {
+    public String evaluate(String s, List<List<String>> knowledge) {
+        HashMap<String,String>map=new HashMap<>();
+        for(int i=0;i<knowledge.size();i++){
+            List<String>l=knowledge.get(i);
+            map.put(l.get(0),l.get(1));
+        }
+        StringBuilder sb=new StringBuilder("");
+        int st=-1;
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch=='('){
+                st=i;
+            }
+            else if(ch==')'){
+                String key=s.substring(st+1,i);
+                if(map.containsKey(key))sb.append(map.get(key));
+                else sb.append('?');
+                st=-1;
+            }
+            else if(st!=-1)continue;
+            else sb.append(ch);
+        }
+        return sb.toString();
+    }
+}
