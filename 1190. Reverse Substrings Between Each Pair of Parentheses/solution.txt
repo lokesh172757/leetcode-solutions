@@ -1,0 +1,32 @@
+class Solution {
+    static class Pair{
+        int i;
+        String s;
+        public Pair(int i,String s){
+            this.i=i;
+            this.s=s;
+        }
+    }
+    public static Pair helper(String s,int i,StringBuilder sb){
+        while(i<s.length()){
+            char ch=s.charAt(i);
+            if(ch=='('){
+                Pair p=helper(s,i+1,new StringBuilder(""));
+                i=p.i+1;
+                sb.append(p.s);
+            }
+            else if(ch==')'){
+                return new Pair(i,sb.reverse().toString());
+            }
+            else {
+                sb.append(ch);
+                i++;
+            }
+            
+        }
+        return new Pair(i+1,sb.toString());
+    }
+    public String reverseParentheses(String s) {
+        return helper(s,0,new StringBuilder("")).s;
+    }
+}
