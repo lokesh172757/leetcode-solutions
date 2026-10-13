@@ -1,0 +1,16 @@
+class Solution {
+    public boolean threeFibonacciSum(int n) {
+        int a=0,b=1,c=1,sum=2;
+        while(sum<=n){
+            if(n==sum)return true;
+            else{
+                sum-=a;
+                a=b;
+                b=c;
+                c=a+b;
+                sum+=c;
+            }
+        }
+        return false;
+    }
+}
