@@ -1,0 +1,18 @@
+class Solution {
+    public int numRabbits(int[] answers) {
+        HashMap<Integer,Integer>map=new HashMap<>();
+        int ans=0;
+        for(int num:answers){
+            if(num==0)ans++;
+            else if(map.containsKey(num)){
+                map.put(num,map.get(num)-1);
+                if(map.get(num)==0)map.remove(num);
+            }
+            else{
+                map.put(num,num);
+                ans+=num+1;
+            }
+        }
+        return ans;
+    }
+}
