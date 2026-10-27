@@ -1,0 +1,25 @@
+class Solution {
+    static int dx[]={1,-1,0,0},dy[]={0,0,1,-1};
+    public static long findVal(int grid[][],int i,int j,int m,int n){
+        if(i<0||i>=m||j<0||j>=n||grid[i][j]==0)return 0L;
+        long val=grid[i][j];
+        grid[i][j]=0;
+        for(int a=0;a<4;a++){
+            int ni=i+dx[a],nj=dy[a]+j;
+            val+=findVal(grid,ni,nj,m,n);
+        }
+        return val;
+    }
+    public int countIslands(int[][] grid, int k) {
+        int m=grid.length,n=grid[0].length,ans=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]!=0){
+                    long val=findVal(grid,i,j,m,n);
+                    if(val%k==0)ans++;
+                }
+            }
+        }
+        return ans;
+    }
+}

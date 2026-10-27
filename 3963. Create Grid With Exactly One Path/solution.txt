@@ -1,0 +1,20 @@
+class Solution {
+    public String[] createGrid(int m, int n) {
+        String ans[]=new String[m];
+        StringBuilder firstRows=new StringBuilder(".");
+        for(int i=1;i<n;i++){
+            firstRows.append('#');
+        }
+        String s1=firstRows.toString();
+        StringBuilder lastRow=new StringBuilder(".");
+        for(int i=1;i<n;i++){
+            lastRow.append('.');
+        }
+        String s2=lastRow.toString();
+        for(int i=0;i<m-1;i++){
+            ans[i]=s1;
+        }
+        ans[m-1]=s2;
+        return ans;
+    }
+}
