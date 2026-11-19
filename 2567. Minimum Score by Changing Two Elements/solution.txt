@@ -1,0 +1,34 @@
+class Solution {
+    public int minimizeSum(int[] nums) {
+        int n=nums.length;
+        if(n<4)return 0;
+        int fmin=Integer.MAX_VALUE,smin=Integer.MAX_VALUE,tmin=Integer.MAX_VALUE;
+        int fmax=Integer.MIN_VALUE,smax=Integer.MIN_VALUE,tmax=Integer.MIN_VALUE;
+        for(int num:nums){
+            //max
+            if(num>fmax){
+                tmax=smax;
+                smax=fmax;
+                fmax=num;
+            }
+            else if(num>smax){
+                tmax=smax;
+                smax=num;
+            }
+            else if(num>tmax)tmax=num;
+            //min
+            if(num<fmin){
+                tmin=smin;
+                smin=fmin;
+                fmin=num;
+            }
+            else if(num<smin){
+                tmin=smin;
+                smin=num;
+            }
+            else if(num<tmin)tmin=num;
+        }
+        int case1=fmax-tmin,case2=tmax-fmin,case3=smax-smin;
+        return Math.min(case1,Math.min(case2,case3));
+    }
+}
