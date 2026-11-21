@@ -1,0 +1,58 @@
+
+class Solution {
+    public static int dfs(ArrayList<Integer>graph[],int ans[],int node){
+        int sum=1;
+        for(int i=0;i<graph[node].size();i++){
+            sum+=dfs(graph,ans,graph[node].get(i));
+        }
+        ans[node]=sum;
+        return sum;
+    }
+
+    public static void change(ArrayList<Integer>graph[],int node,String s,HashMap<Character,Integer>map,int newParent[]){
+        char c=s.charAt(node);
+        int old=map.getOrDefault(c,-1);
+        if(old!=-1){
+            newParent[node]=old;
+        }
+        map.put(c,node);
+        for(int i=0;i<graph[node].size();i++){
+            change(graph,graph[node].get(i),s,map,newParent);
+        }
+        if(old!=-1)map.put(c,old);
+        else map.remove(c);
+    }
+
+    public int[] findSubtreeSizes(int[] parent, String s) {
+        int n=parent.length;
+        ArrayList<Integer>graph[]=new ArrayList[n];
+
+        for(int i=0;i<n;i++){
+            graph[i]=new ArrayList<>();
+        }
+
+        for(int i=1;i<n;i++){
+            graph[parent[i]].add(i);
+        }
+
+        int newParent[]=parent.clone();
+        HashMap<Character,Integer>map=new HashMap<>();
+
+        change(graph,0,s,map,newParent);
+
+        ArrayList<Integer>newGraph[]=new ArrayList[n];
+        for(int i=0;i<n;i++){
+            newGraph[i]=new ArrayList<>();
+        }
+
+        for(int i=1;i<n;i++){
+            newGraph[newParent[i]].add(i);
+        }
+
+        int ans[]=new int[n];
+        dfs(newGraph,ans,0);
+
+        return ans;
+    }
+}
+
